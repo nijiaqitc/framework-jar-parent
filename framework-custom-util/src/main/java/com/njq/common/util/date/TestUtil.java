@@ -19,4 +19,8 @@ public class TestUtil {
 		System.out.println("1212121221111");
 	}
 
+
+	public static void test2() {
+		System.out.println("1212121221111");
+	}
 }
