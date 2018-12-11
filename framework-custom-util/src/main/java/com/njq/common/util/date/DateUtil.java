@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
-
 	  private static SimpleDateFormat dateFormat1=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	  private static SimpleDateFormat dateFormat2=new SimpleDateFormat("yyyy-MM-dd");
 	  private static SimpleDateFormat dateFormat3=new SimpleDateFormat("HH:mm");
