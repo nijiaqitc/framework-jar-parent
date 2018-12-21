@@ -20,11 +20,12 @@ import sun.misc.BASE64Decoder;
 
 public class UpPicUtil {
     private static Logger logger = LoggerFactory.getLogger(UpPicUtil.class);
-    
-    
+
+
     /**
      * 上传二进制图片
-     * @param req
+     * @param item
+     * @param filePlace
      * @return
      */
     public static String upBlobPic(FileItem item,String filePlace){
@@ -68,7 +69,8 @@ public class UpPicUtil {
             //Base64解码
             byte[] b = decoder.decodeBuffer(base64Data.split("base64,")[1]);
             for(int i=0;i<b.length;++i){
-                if(b[i]<0){//调整异常数据
+                //调整异常数据
+                if(b[i]<0){
                     b[i]+=256;
                 }
             }
@@ -93,7 +95,6 @@ public class UpPicUtil {
     /**
      * 上传网络图片
      * @param urlString 网址
-     * @param filename 图片名称
      * @param savePath 保存地址
      * @throws Exception
      */
