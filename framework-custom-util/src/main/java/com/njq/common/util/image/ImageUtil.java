@@ -1,11 +1,7 @@
 package com.njq.common.util.image;
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Toolkit;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -17,34 +13,37 @@ import java.awt.image.ImageFilter;
 import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
-@SuppressWarnings("static-access")
 public class ImageUtil {
 
-   
-    public static String IMAGE_TYPE_GIF = "gif";// 图形交换格式
-    public static String IMAGE_TYPE_JPG = "jpg";// 联合照片专家组
-    public static String IMAGE_TYPE_JPEG = "jpeg";// 联合照片专家组
-    public static String IMAGE_TYPE_BMP = "bmp";// 英文Bitmap（位图）的简写，它是Windows操作系统中的标准图像文件格式
-    public static String IMAGE_TYPE_PNG = "png";// 可移植网络图形
-    public static String IMAGE_TYPE_PSD = "psd";// Photoshop的专用格式Photoshop
+    // 图形交换格式
+    public static String IMAGE_TYPE_GIF = "gif";
+    // 联合照片专家组
+    public static String IMAGE_TYPE_JPG = "jpg";
+    // 联合照片专家组
+    public static String IMAGE_TYPE_JPEG = "jpeg";
+    // 英文Bitmap（位图）的简写，它是Windows操作系统中的标准图像文件格式
+    public static String IMAGE_TYPE_BMP = "bmp";
+    // 可移植网络图形
+    public static String IMAGE_TYPE_PNG = "png";
+    // Photoshop的专用格式Photoshop
+    public static String IMAGE_TYPE_PSD = "psd";
 
-   
+
     public static void main(String[] args) {
-    	String path="E:/test111/";
-    	  File file=new File(path);
-    	  File[] tempList = file.listFiles();
-    	  System.out.println("该目录下对象个数："+tempList.length);
-    	  for (int i = 0; i < tempList.length; i++) {
-    	   if (tempList[i].isFile()) {
-    	    System.out.println("文     件："+tempList[i]);
-    	   }
-    	   if (tempList[i].isDirectory()) {
-    		   
-    		   System.out.println("文件夹："+tempList[i]);
-    		   System.out.println(file.listFiles()[0]);
-    	   }
-    	  }
+        String path = "E:/test111/";
+        File file = new File(path);
+        File[] tempList = file.listFiles();
+        System.out.println("该目录下对象个数：" + tempList.length);
+        for (int i = 0; i < tempList.length; i++) {
+            if (tempList[i].isFile()) {
+                System.out.println("文     件：" + tempList[i]);
+            }
+            if (tempList[i].isDirectory()) {
+
+                System.out.println("文件夹：" + tempList[i]);
+                System.out.println(file.listFiles()[0]);
+            }
+        }
     	
     	
         /*// 1-缩放图像：
@@ -75,19 +74,27 @@ public class ImageUtil {
         
         // 6-给图片添加图片水印：
     	Test3.pressImage("e:/abc2.jpg", "e:/abc.jpg","e:/abc_pressImage.jpg", 0, 0, 0.5f);//测试OK
-*/    }
+*/
+    }
 
-   
+
     public final static void scale(String srcImageFile, String result,
-            int scale, boolean flag) {
+                                   int scale, boolean flag) {
         try {
-            BufferedImage src = ImageIO.read(new File(srcImageFile)); // 读入文件
-            int width = src.getWidth(); // 得到源图宽
-            int height = src.getHeight(); // 得到源图长
-            if (flag) {// 放大
+            // 读入文件
+            BufferedImage src = ImageIO.read(new File(srcImageFile));
+            // 得到源图宽
+            int width = src.getWidth();
+            // 得到源图长
+            int height = src.getHeight();
+            /*
+              * 放大
+              */
+            if (flag) {
                 width = width * scale;
                 height = height * scale;
-            } else {// 缩小
+            } else {
+                // 缩小
                 width = width / scale;
                 height = height / scale;
             }
@@ -96,55 +103,70 @@ public class ImageUtil {
             BufferedImage tag = new BufferedImage(width, height,
                     BufferedImage.TYPE_INT_RGB);
             Graphics g = tag.getGraphics();
-            g.drawImage(image, 0, 0, null); // 绘制缩小后的图
+            // 绘制缩小后的图
+            g.drawImage(image, 0, 0, null);
             g.dispose();
-            ImageIO.write(tag, "JPEG", new File(result));// 输出到文件流
+            // 输出到文件流
+            ImageIO.write(tag, "JPEG", new File(result));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
-    //图片缩放
-    public final static void scale(String srcImageFile, String result,int width,int height) {
+
+    /**
+     * 图片缩放
+     */
+    public final static void scale(String srcImageFile, String result, int width, int height) {
         try {
-            BufferedImage src = ImageIO.read(new File(srcImageFile)); // 读入文件
+            // 读入文件
+            BufferedImage src = ImageIO.read(new File(srcImageFile));
             Image image = src.getScaledInstance(width, height,
                     Image.SCALE_SMOOTH);
             BufferedImage tag = new BufferedImage(width, height,
                     BufferedImage.TYPE_INT_RGB);
             Graphics g = tag.getGraphics();
-            g.drawImage(image, 0, 0, null); // 绘制缩小后的图
+            // 绘制缩小后的图
+            g.drawImage(image, 0, 0, null);
             g.dispose();
-            ImageIO.write(tag, "JPEG", new File(result));// 输出到文件流
+            // 输出到文件流
+            ImageIO.write(tag, "JPEG", new File(result));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
-    //图片缩放
-    public final static void scale(File f, String result,int width,int height) {
+
+    /**
+     * 图片缩放
+     */
+    public final static void scale(File f, String result, int width, int height) {
         try {
-            BufferedImage src = ImageIO.read(f); // 读入文件
+            // 读入文件
+            BufferedImage src = ImageIO.read(f);
             Image image = src.getScaledInstance(width, height,
                     Image.SCALE_SMOOTH);
             BufferedImage tag = new BufferedImage(width, height,
                     BufferedImage.TYPE_INT_RGB);
             Graphics g = tag.getGraphics();
-            g.drawImage(image, 0, 0, null); // 绘制缩小后的图
+            // 绘制缩小后的图
+            g.drawImage(image, 0, 0, null);
             g.dispose();
-            ImageIO.write(tag, "JPEG", new File(result));// 输出到文件流
+            // 输出到文件流
+            ImageIO.write(tag, "JPEG", new File(result));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-   
+
     public final static void scale2(String srcImageFile, String result, int height, int width, boolean bb) {
         try {
-            double ratio = 0.0; // 缩放比例
+            // 缩放比例
+            double ratio = 0.0;
             File f = new File(srcImageFile);
             BufferedImage bi = ImageIO.read(f);
             Image itemp = bi.getScaledInstance(width, height, bi.SCALE_SMOOTH);
-            // 计算比例
+            /*
+             * 计算比例
+             */
             if ((bi.getHeight() > height) || (bi.getWidth() > width)) {
                 if (bi.getHeight() > bi.getWidth()) {
                     ratio = (new Integer(height)).doubleValue()
@@ -156,7 +178,8 @@ public class ImageUtil {
                         .getScaleInstance(ratio, ratio), null);
                 itemp = op.filter(bi, null);
             }
-            if (bb) {//补白
+            if (bb) {
+                //补白
                 BufferedImage image = new BufferedImage(width, height,
                         BufferedImage.TYPE_INT_RGB);
                 Graphics2D g = image.createGraphics();
@@ -178,12 +201,12 @@ public class ImageUtil {
             e.printStackTrace();
         }
     }
-    
+
     public final static void scale2(File f, String result, int height, int width, boolean bb) {
         try {
             double ratio = 0.0; // 缩放比例
             BufferedImage bi = ImageIO.read(f);
-            
+
             Image itemp = bi.getScaledInstance(width, height, bi.SCALE_SMOOTH);
             // 计算比例
             if ((bi.getHeight() > height) || (bi.getWidth() > width)) {
@@ -219,14 +242,16 @@ public class ImageUtil {
             e.printStackTrace();
         }
     }
-   
+
     public final static void cut(String srcImageFile, String result,
-            int x, int y, int width, int height) {
+                                 int x, int y, int width, int height) {
         try {
             // 读取源图像
             BufferedImage bi = ImageIO.read(new File(srcImageFile));
-            int srcWidth = bi.getHeight(); // 源图宽度
-            int srcHeight = bi.getWidth(); // 源图高度
+            // 源图宽度
+            int srcWidth = bi.getHeight();
+            // 源图高度
+            int srcHeight = bi.getWidth();
             if (srcWidth > 0 && srcHeight > 0) {
                 Image image = bi.getScaledInstance(srcWidth, srcHeight,
                         Image.SCALE_DEFAULT);
@@ -238,7 +263,8 @@ public class ImageUtil {
                                 cropFilter));
                 BufferedImage tag = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
                 Graphics g = tag.getGraphics();
-                g.drawImage(img, 0, 0, width, height, null); // 绘制切割后的图
+                // 绘制切割后的图
+                g.drawImage(img, 0, 0, width, height, null);
                 g.dispose();
                 // 输出为文件
                 ImageIO.write(tag, "JPEG", new File(result));
@@ -247,23 +273,31 @@ public class ImageUtil {
             e.printStackTrace();
         }
     }
-    
-   
+
+
     public final static void cut2(String srcImageFile, String descDir,
-            int rows, int cols) {
+                                  int rows, int cols) {
         try {
-            if(rows<=0||rows>20) rows = 2; // 切片行数
-            if(cols<=0||cols>20) cols = 2; // 切片列数
+            if (rows <= 0 || rows > 20) {
+                rows = 2; // 切片行数
+            }
+            if (cols <= 0 || cols > 20) {
+                cols = 2; // 切片列数
+            }
             // 读取源图像
             BufferedImage bi = ImageIO.read(new File(srcImageFile));
-            int srcWidth = bi.getHeight(); // 源图宽度
-            int srcHeight = bi.getWidth(); // 源图高度
+            // 源图宽度
+            int srcWidth = bi.getHeight();
+            // 源图高度
+            int srcHeight = bi.getWidth();
             if (srcWidth > 0 && srcHeight > 0) {
                 Image img;
                 ImageFilter cropFilter;
                 Image image = bi.getScaledInstance(srcWidth, srcHeight, Image.SCALE_DEFAULT);
-                int destWidth = srcWidth; // 每张切片的宽度
-                int destHeight = srcHeight; // 每张切片的高度
+                // 每张切片的宽度
+                int destWidth = srcWidth;
+                // 每张切片的高度
+                int destHeight = srcHeight;
                 // 计算切片的宽度和高度
                 if (srcWidth % cols == 0) {
                     destWidth = srcWidth / cols;
@@ -289,7 +323,8 @@ public class ImageUtil {
                         BufferedImage tag = new BufferedImage(destWidth,
                                 destHeight, BufferedImage.TYPE_INT_RGB);
                         Graphics g = tag.getGraphics();
-                        g.drawImage(img, 0, 0, null); // 绘制缩小后的图
+                        // 绘制缩小后的图
+                        g.drawImage(img, 0, 0, null);
                         g.dispose();
                         // 输出为文件
                         ImageIO.write(tag, "JPEG", new File(descDir
@@ -302,12 +337,18 @@ public class ImageUtil {
         }
     }
 
-   
+
     public final static void cut3(String srcImageFile, String descDir,
-            int destWidth, int destHeight) {
+                                  int destWidth, int destHeight) {
         try {
-            if(destWidth<=0) destWidth = 200; // 切片宽度
-            if(destHeight<=0) destHeight = 150; // 切片高度
+            if (destWidth <= 0) {
+                // 切片宽度
+                destWidth = 200;
+            }
+            if (destHeight <= 0) {
+                // 切片高度
+                destHeight = 150;
+            }
             // 读取源图像
             BufferedImage bi = ImageIO.read(new File(srcImageFile));
             int srcWidth = bi.getHeight(); // 源图宽度
@@ -356,7 +397,7 @@ public class ImageUtil {
         }
     }
 
-   
+
     public final static void convert(String srcImageFile, String formatName, String destImageFile) {
         try {
             File f = new File(srcImageFile);
@@ -369,7 +410,7 @@ public class ImageUtil {
         }
     }
 
-   
+
     public final static void gray(String srcImageFile, String destImageFile) {
         try {
             BufferedImage src = ImageIO.read(new File(srcImageFile));
@@ -382,11 +423,11 @@ public class ImageUtil {
         }
     }
 
-   
+
     public final static void pressText(String pressText,
-            String srcImageFile, String destImageFile, String fontName,
-            int fontStyle, Color color, int fontSize,int x,
-            int y, float alpha) {
+                                       String srcImageFile, String destImageFile, String fontName,
+                                       int fontStyle, Color color, int fontSize, int x,
+                                       int y, float alpha) {
         try {
             File img = new File(srcImageFile);
             Image src = ImageIO.read(img);
@@ -410,10 +451,10 @@ public class ImageUtil {
         }
     }
 
-   
-    public final static void pressText2(String pressText, String srcImageFile,String destImageFile,
-            String fontName, int fontStyle, Color color, int fontSize, int x,
-            int y, float alpha) {
+
+    public final static void pressText2(String pressText, String srcImageFile, String destImageFile,
+                                        String fontName, int fontStyle, Color color, int fontSize, int x,
+                                        int y, float alpha) {
         try {
             File img = new File(srcImageFile);
             Image src = ImageIO.read(img);
@@ -437,9 +478,9 @@ public class ImageUtil {
         }
     }
 
-   
-    public final static void pressImage(String pressImg, String srcImageFile,String destImageFile,
-            int x, int y, float alpha) {
+
+    public final static void pressImage(String pressImg, String srcImageFile, String destImageFile,
+                                        int x, int y, float alpha) {
         try {
             File img = new File(srcImageFile);
             Image src = ImageIO.read(img);
@@ -459,13 +500,13 @@ public class ImageUtil {
                     (height - height_biao) / 2, wideth_biao, height_biao, null);
             // 水印文件结束
             g.dispose();
-            ImageIO.write((BufferedImage) image,  "JPEG", new File(destImageFile));
+            ImageIO.write((BufferedImage) image, "JPEG", new File(destImageFile));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-   
+
     public final static int getLength(String text) {
         int length = 0;
         for (int i = 0; i < text.length(); i++) {

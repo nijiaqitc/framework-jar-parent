@@ -48,7 +48,7 @@ public class StringUtil {
         char[] var3 = val;
         int var4 = val.length;
 
-        for(int var5 = 0; var5 < var4; ++var5) {
+        for (int var5 = 0; var5 < var4; ++var5) {
             char aVal = var3[var5];
             h = 31 * h + aVal;
         }
@@ -58,9 +58,9 @@ public class StringUtil {
 
     public static String getChar(int value) {
         StringBuilder sb;
-        for(sb = new StringBuilder(4); value > 0; value /= 26) {
+        for (sb = new StringBuilder(4); value > 0; value /= 26) {
             --value;
-            sb.append((char)(value % 26 + 65));
+            sb.append((char) (value % 26 + 65));
         }
 
         return sb.reverse().toString();
@@ -73,7 +73,7 @@ public class StringUtil {
             String[] var1 = ENCODES;
             int var2 = var1.length;
 
-            for(int var3 = 0; var3 < var2; ++var3) {
+            for (int var3 = 0; var3 < var2; ++var3) {
                 String encode = var1[var3];
 
                 try {
@@ -131,13 +131,13 @@ public class StringUtil {
         if (val == null) {
             return true;
         } else if (val instanceof String) {
-            String text = (String)val;
+            String text = (String) val;
             if (text.length() == 0) {
                 return true;
             } else {
                 int len = text.length();
 
-                for(int i = 0; i < len; ++i) {
+                for (int i = 0; i < len; ++i) {
                     if (!Character.isWhitespace(text.charAt(i))) {
                         return false;
                     }
@@ -178,7 +178,7 @@ public class StringUtil {
                 int begin = 0;
 
                 String num;
-                for(int end = ipv4.indexOf(46); end > 0; end = ipv4.indexOf(46, begin)) {
+                for (int end = ipv4.indexOf(46); end > 0; end = ipv4.indexOf(46, begin)) {
                     num = ipv4.substring(begin, end);
                     lip = lip << 8 | Long.parseLong(num);
                     begin = end + 1;
@@ -217,8 +217,8 @@ public class StringUtil {
     public static synchronized String getTimeString() {
         StringBuilder sb = new StringBuilder();
 
-        for(long current = System.nanoTime(); current > 0L; current >>= 5) {
-            sb.append(CODE[(int)(current & 31L)]);
+        for (long current = System.nanoTime(); current > 0L; current >>= 5) {
+            sb.append(CODE[(int) (current & 31L)]);
         }
 
         return sb.toString();
@@ -227,8 +227,8 @@ public class StringUtil {
     public static synchronized String getNanoString() {
         StringBuilder sb = new StringBuilder();
 
-        for(long current = System.nanoTime(); current > 0L; current >>= 4) {
-            sb.append(NEW_CODE[(int)(current & 15L)]);
+        for (long current = System.nanoTime(); current > 0L; current >>= 4) {
+            sb.append(NEW_CODE[(int) (current & 15L)]);
         }
 
         return sb.toString();
@@ -245,56 +245,56 @@ public class StringUtil {
             StringBuilder sb = new StringBuilder();
             int len = target.length();
 
-            for(int i = 0; i < len; ++i) {
+            for (int i = 0; i < len; ++i) {
                 char c = target.charAt(i);
-                switch(c) {
-                case '\n':
-                    sb.append("<br>");
-                    break;
-                case '\r':
-                    if (i < len - 1 && target.charAt(i + 1) == '\n') {
+                switch (c) {
+                    case '\n':
                         sb.append("<br>");
-                        ++i;
                         break;
-                    }
+                    case '\r':
+                        if (i < len - 1 && target.charAt(i + 1) == '\n') {
+                            sb.append("<br>");
+                            ++i;
+                            break;
+                        }
 
-                    sb.append("<br>");
-                    break;
-                case ' ':
-                    if (i < len - 1 && target.charAt(i + 1) == ' ') {
-                        sb.append(" &nbsp;");
-                        ++i;
+                        sb.append("<br>");
                         break;
-                    }
-                default:
-                    sb.append(c);
-                    break;
-                case '"':
-                    sb.append("&quot;");
-                    break;
-                case '&':
-                    sb.append("&amp;");
-                    break;
-                case '<':
-                    sb.append("&lt;");
-                    break;
-                case '>':
-                    sb.append("&gt;");
-                    break;
-                case '¥':
-                    sb.append("&yen;");
-                    break;
-                case '©':
-                    sb.append("&copy;");
-                    break;
-                case '®':
-                    sb.append("&reg;");
-                    break;
-                case '€':
-                    sb.append("&euro;");
-                    break;
-                case '™':
-                    sb.append("&#153;");
+                    case ' ':
+                        if (i < len - 1 && target.charAt(i + 1) == ' ') {
+                            sb.append(" &nbsp;");
+                            ++i;
+                            break;
+                        }
+                    default:
+                        sb.append(c);
+                        break;
+                    case '"':
+                        sb.append("&quot;");
+                        break;
+                    case '&':
+                        sb.append("&amp;");
+                        break;
+                    case '<':
+                        sb.append("&lt;");
+                        break;
+                    case '>':
+                        sb.append("&gt;");
+                        break;
+                    case '¥':
+                        sb.append("&yen;");
+                        break;
+                    case '©':
+                        sb.append("&copy;");
+                        break;
+                    case '®':
+                        sb.append("&reg;");
+                        break;
+                    case '€':
+                        sb.append("&euro;");
+                        break;
+                    case '™':
+                        sb.append("&#153;");
                 }
             }
 
@@ -317,7 +317,7 @@ public class StringUtil {
             Object[] var5 = params;
             int var6 = params.length;
 
-            for(int var7 = 0; var7 < var6; ++var7) {
+            for (int var7 = 0; var7 < var6; ++var7) {
                 Object obj = var5[var7];
                 index = sb.indexOf("?", index);
                 if (index < 0) {
@@ -337,49 +337,49 @@ public class StringUtil {
         if (obj instanceof String) {
             return "'" + obj.toString() + "'";
         } else if (obj instanceof java.sql.Date) {
-            return getDate((java.sql.Date)obj, type);
+            return getDate((java.sql.Date) obj, type);
         } else if (obj instanceof Timestamp) {
-            return getTimestamp((Timestamp)obj, type);
+            return getTimestamp((Timestamp) obj, type);
         } else {
             return obj == null ? "" : obj.toString();
         }
     }
 
     private static String getTimestamp(Timestamp time, int type) {
-        switch(type) {
-        case 0:
-            if (time == null) {
-                return "now()";
-            }
+        switch (type) {
+            case 0:
+                if (time == null) {
+                    return "now()";
+                }
 
-            return "'" + getStampFormat().format(time) + "'";
-        case 1:
-            if (time == null) {
-                return "SYSTIMESTMAP";
-            }
+                return "'" + getStampFormat().format(time) + "'";
+            case 1:
+                if (time == null) {
+                    return "SYSTIMESTMAP";
+                }
 
-            return "TO_TIMESTAMP('" + getStampFormat().format(time) + "','yyyymmdd hh24:mi:ssxff')";
-        default:
-            return getTimestamp(time, 0);
+                return "TO_TIMESTAMP('" + getStampFormat().format(time) + "','yyyymmdd hh24:mi:ssxff')";
+            default:
+                return getTimestamp(time, 0);
         }
     }
 
     private static String getDate(java.sql.Date date, int type) {
-        switch(type) {
-        case 0:
-            if (date == null) {
-                return "now()";
-            }
+        switch (type) {
+            case 0:
+                if (date == null) {
+                    return "now()";
+                }
 
-            return "'" + getDateFormat().format(date) + "'";
-        case 1:
-            if (date == null) {
-                return "SYSDATE";
-            }
+                return "'" + getDateFormat().format(date) + "'";
+            case 1:
+                if (date == null) {
+                    return "SYSDATE";
+                }
 
-            return "TO_DATE('" + getDateFormat().format(date) + "','yyyymmdd hh24:mi:ss')";
-        default:
-            return getDate(date, 0);
+                return "TO_DATE('" + getDateFormat().format(date) + "','yyyymmdd hh24:mi:ss')";
+            default:
+                return getDate(date, 0);
         }
     }
 
@@ -387,10 +387,10 @@ public class StringUtil {
         if (data != null && !data.isEmpty()) {
             StringBuilder sb = new StringBuilder("('");
             Iterator<String> itr = data.iterator();
-            sb.append((String)itr.next());
+            sb.append((String) itr.next());
 
-            while(itr.hasNext()) {
-                sb.append("','").append((String)itr.next());
+            while (itr.hasNext()) {
+                sb.append("','").append((String) itr.next());
             }
 
             sb.append("')");
@@ -408,7 +408,7 @@ public class StringUtil {
             StringBuilder sb = new StringBuilder("('");
             sb.append(data[0]);
 
-            for(int i = 1; i < len; ++i) {
+            for (int i = 1; i < len; ++i) {
                 sb.append("','").append(data[i]);
             }
 
@@ -437,7 +437,7 @@ public class StringUtil {
                 int offset = 0;
                 int len = text.length();
 
-                for(int mark = -1; i < len; ++i) {
+                for (int mark = -1; i < len; ++i) {
                     char c = text.charAt(i);
                     if (mark > -1) {
                         if (end[k] == c) {
@@ -488,7 +488,7 @@ public class StringUtil {
             if (c < 'a' && c > 'z') {
                 return text;
             } else {
-                c = (char)(c & 223);
+                c = (char) (c & 223);
                 char[] chr = text.toCharArray();
                 chr[0] = c;
                 return new String(chr);
@@ -504,7 +504,7 @@ public class StringUtil {
             if (c < 'A' && c > 'Z') {
                 return text;
             } else {
-                c = (char)(c | 32);
+                c = (char) (c | 32);
                 char[] chr = text.toCharArray();
                 chr[0] = c;
                 return new String(chr);
@@ -527,7 +527,7 @@ public class StringUtil {
             int num = Integer.parseInt(ipMaskNum);
             StringBuilder sb = new StringBuilder();
 
-            while(true) {
+            while (true) {
                 ++count;
                 if (count >= 5) {
                     sb.deleteCharAt(sb.length() - 1);
@@ -542,7 +542,7 @@ public class StringUtil {
                     int c = 0;
 
                     int d;
-                    for(d = 0; c < num; d += 1 << 8 - c) {
+                    for (d = 0; c < num; d += 1 << 8 - c) {
                         ++c;
                     }
 
@@ -573,11 +573,11 @@ public class StringUtil {
     }
 
     public static String urlEncode(String str) {
-        return urlEncode(str, (String)null);
+        return urlEncode(str, (String) null);
     }
 
     public static String urlDecode(String str) {
-        return urlDecode(str, (String)null);
+        return urlDecode(str, (String) null);
     }
 
     public static String byteSubstring(String src, int byteBegin, int len) {
@@ -620,7 +620,7 @@ public class StringUtil {
             StringBuilder sb = new StringBuilder();
             int len = num.length;
 
-            for(int i = 0; i < len; ++i) {
+            for (int i = 0; i < len; ++i) {
                 if (num[i] > 0L) {
                     sb.append(num[i]).append(numName[i]);
                 }
@@ -636,7 +636,7 @@ public class StringUtil {
         long remainder = 0L;
         long divisor = 1000L;
 
-        while(remainder == 0L && bandwidth >= divisor) {
+        while (remainder == 0L && bandwidth >= divisor) {
             remainder = bandwidth % divisor;
             if (remainder == 0L) {
                 ++unit;
@@ -650,8 +650,8 @@ public class StringUtil {
             return bandwidth + units[unit];
         } else {
             double bw;
-            for(bw = (double)bandwidth; bw > (double)divisor; ++unit) {
-                bw /= (double)divisor;
+            for (bw = (double) bandwidth; bw > (double) divisor; ++unit) {
+                bw /= (double) divisor;
             }
 
             return (new DecimalFormat("#.##")).format(bw) + units[unit];
@@ -678,10 +678,10 @@ public class StringUtil {
             int len = text.length();
             boolean first = true;
 
-            for(int i = 0; i < len; ++i) {
+            for (int i = 0; i < len; ++i) {
                 char c = text.charAt(i);
                 if (first && c >= 'a' && c <= 'z') {
-                    sb.append((char)(c & 223));
+                    sb.append((char) (c & 223));
                     first = false;
                 } else if (c >= 'A' && c <= 'Z') {
                     first = false;
@@ -697,12 +697,12 @@ public class StringUtil {
         if (values != null && !values.isEmpty()) {
             Iterator<String> itr = values.iterator();
             if (values.size() == 1) {
-                return (String)itr.next();
+                return (String) itr.next();
             } else {
-                StringBuilder sb = new StringBuilder((String)itr.next());
+                StringBuilder sb = new StringBuilder((String) itr.next());
 
-                while(itr.hasNext()) {
-                    sb.append(gap).append((String)itr.next());
+                while (itr.hasNext()) {
+                    sb.append(gap).append((String) itr.next());
                 }
 
                 return sb.toString();
@@ -743,8 +743,8 @@ public class StringUtil {
             StringBuilder sBuffer = new StringBuilder(phones.size() * 11);
             Iterator var3 = phones.iterator();
 
-            while(var3.hasNext()) {
-                String string = (String)var3.next();
+            while (var3.hasNext()) {
+                String string = (String) var3.next();
                 sBuffer.append(",").append(string);
             }
 
@@ -760,7 +760,7 @@ public class StringUtil {
             target = Arrays.asList(string.split(","));
         }
 
-        return (List)target;
+        return (List) target;
     }
 
     private static DateFormat getDateFormat() {
@@ -779,65 +779,65 @@ public class StringUtil {
             StringBuffer stb = new StringBuffer();
             int len = 6 - time.length();
 
-            for(int i = 0; i < len; ++i) {
+            for (int i = 0; i < len; ++i) {
                 stb.append("0");
             }
 
             return stb.append(time).toString();
         }
     }
-    
+
     /**
-	 * 将Long数组转换成字符串
-	 * 
-	 * @param ids
-	 * @return 2016-1-5 author njq
-	 */
-	public static String LongToString(Long[] ids) {
-		if (ids.length <= 0) {
-			return "";
-		}
-		StringBuffer stb = new StringBuffer();
-		for (long l : ids) {
-			stb.append(l + ",");
-		}
-		return stb.toString().substring(0, stb.toString().length() - 1);
-	}
+     * 将Long数组转换成字符串
+     *
+     * @param ids
+     * @return 2016-1-5 author njq
+     */
+    public static String LongToString(Long[] ids) {
+        if (ids.length <= 0) {
+            return "";
+        }
+        StringBuffer stb = new StringBuffer();
+        for (long l : ids) {
+            stb.append(l + ",");
+        }
+        return stb.toString().substring(0, stb.toString().length() - 1);
+    }
 
-	/**
-	 * 将String数组转换成字符串
-	 * 
-	 * @param strs
-	 * @return 2016年6月30日 author njq
-	 */
-	public static String StringsToString(String[] strs) {
-		if (strs.length <= 0) {
-			return "";
-		}
-		StringBuffer stb = new StringBuffer();
-		for (String l : strs) {
-			stb.append(l + ",");
-		}
-		return stb.toString().substring(0, stb.toString().length() - 1);
-	}
+    /**
+     * 将String数组转换成字符串
+     *
+     * @param strs
+     * @return 2016年6月30日 author njq
+     */
+    public static String StringsToString(String[] strs) {
+        if (strs.length <= 0) {
+            return "";
+        }
+        StringBuffer stb = new StringBuffer();
+        for (String l : strs) {
+            stb.append(l + ",");
+        }
+        return stb.toString().substring(0, stb.toString().length() - 1);
+    }
 
-	/**
-	 * 判断对象是否不为空
-	 * 
-	 * @param obj
-	 * @return 2016年6月27日 author njq
-	 */
-	public static boolean IsNotEmpty(Object obj) {
-		return obj != null && obj != "";
-	}
+    /**
+     * 判断对象是否不为空
+     *
+     * @param obj
+     * @return 2016年6月27日 author njq
+     */
+    public static boolean IsNotEmpty(Object obj) {
+        return obj != null && obj != "";
+    }
 
-	/**
-	 * 判断对象是否为空
-	 * 
-	 * @param value
-	 * @return
-	 */
-	public static boolean IsEmpty(String value) {
-		return value == null || value == "";
-	}
+    /**
+     * 判断对象是否为空
+     *
+     * @param value
+     * @return
+     */
+    public static boolean IsEmpty(String value) {
+        return value == null || value == "";
+    }
 }
