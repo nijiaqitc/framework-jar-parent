@@ -25,7 +25,7 @@ public class UrlChangeUtil {
         String strYY = fmtYY.format(timeCur);
         String strMM = fmtMM.format(timeCur);
         String strDD = fmtDD.format(timeCur);
-        String url = "\\/" + shortName + "\\/" + strYY + strMM + strDD + "\\/" + fileName;
+        String url = "/" + shortName + "/" + strYY + strMM + strDD + "/" + fileName;
         try {
             downLoad(src, savePlace + url, shortName);
         } catch (Exception e) {
