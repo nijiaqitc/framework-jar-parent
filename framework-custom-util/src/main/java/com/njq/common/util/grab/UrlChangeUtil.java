@@ -1,5 +1,6 @@
 package com.njq.common.util.grab;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,7 +26,12 @@ public class UrlChangeUtil {
         String strYY = fmtYY.format(timeCur);
         String strMM = fmtMM.format(timeCur);
         String strDD = fmtDD.format(timeCur);
-        String url = "/" + shortName + "/" + strYY + strMM + strDD + "/" + fileName;
+        String url = "/" + shortName + "/" + strYY + strMM + strDD;
+        File dir = new File(savePlace + url);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        url += "/" + fileName;
         try {
             downLoad(src, savePlace + url, shortName);
         } catch (Exception e) {
