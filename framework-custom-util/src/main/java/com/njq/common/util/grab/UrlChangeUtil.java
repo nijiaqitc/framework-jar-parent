@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.zip.GZIPInputStream;
@@ -16,9 +17,24 @@ public class UrlChangeUtil {
         if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
             String[] img = src.split("\\?")[0].split("\\/");
             String[] imgName = img[img.length - 1].split("\\.");
-            fileName += "." + imgName[1];
+            if (imgName.length > 1) {
+                fileName += "." + imgName[1];
+            } else {
+                fileName += ".png";
+            }
             src = prefix + src;
         }
+
+        String url = getSrc(shortName, savePlace) + "/" + fileName;
+        try {
+            downLoad(src, savePlace + url, shortName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    private static String getSrc(String shortName, String savePlace) {
         Date timeCur = new Date();
         SimpleDateFormat fmtYY = new SimpleDateFormat("yyyy");
         SimpleDateFormat fmtMM = new SimpleDateFormat("MM");
@@ -31,13 +47,22 @@ public class UrlChangeUtil {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        url += "/" + fileName;
-        try {
-            downLoad(src, savePlace + url, shortName);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return url;
+    }
+
+    public static String changeFileUrl(String prefix, String src, String shortName, String savePlace) {
+        if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
+            String[] img = src.split("\\?")[0].split("\\/");
+            String url = getSrc(shortName, savePlace) + "/" + img[img.length - 1];
+            try {
+                String saveRealPlace = savePlace + url;
+                downLoad(prefix + src, URLDecoder.decode(saveRealPlace, "UTF-8"), shortName);
+                return saveRealPlace;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     public static void downLoad(String urlString, String fileName, String shortName) throws Exception {
