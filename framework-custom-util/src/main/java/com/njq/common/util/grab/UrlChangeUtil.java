@@ -57,7 +57,7 @@ public class UrlChangeUtil {
             try {
                 String saveRealPlace = savePlace + url;
                 downLoad(prefix + src, URLDecoder.decode(saveRealPlace, "UTF-8"), shortName);
-                return saveRealPlace;
+                return url+"/downLoadFile?file="+img[img.length - 1];
             } catch (Exception e) {
                 e.printStackTrace();
             }
