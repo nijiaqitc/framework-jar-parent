@@ -53,9 +53,9 @@ public class UrlChangeUtil {
     public static String changeFileUrl(String prefix, String src, String shortName, String savePlace) {
         if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
             String[] img = src.split("\\?")[0].split("\\/");
-            String url = getSrc(shortName, savePlace) + "/" + img[img.length - 1];
+            String url = getSrc(shortName, savePlace);
             try {
-                String saveRealPlace = savePlace + url;
+                String saveRealPlace = savePlace + url+ "/" + img[img.length - 1];
                 downLoad(prefix + src, URLDecoder.decode(saveRealPlace, "UTF-8"), shortName);
                 return url+"/downLoadFile?file="+img[img.length - 1];
             } catch (Exception e) {
