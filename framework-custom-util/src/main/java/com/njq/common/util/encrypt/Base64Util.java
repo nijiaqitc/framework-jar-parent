@@ -75,6 +75,12 @@ public class Base64Util {
             in.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                in.close();
+            }catch (Exception e){
+
+            }
         }
         //对字节数组Base64编码
         BASE64Encoder encoder = new BASE64Encoder();
@@ -94,8 +100,9 @@ public class Base64Util {
         /*
          * 对字节数组字符串进行Base64解码并生成图片
          */
-        if (imgStr == null)
+        if (imgStr == null){
             return "";
+        }
         BASE64Decoder decoder = new BASE64Decoder();
         try {
             //Base64解码
