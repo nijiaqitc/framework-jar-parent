@@ -7,6 +7,7 @@ import org.apache.http.ParseException;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.cookie.Cookie;
@@ -87,6 +88,7 @@ public class HtmlGrabUtil {
 
     public HttpEntity sendPostFromUrl(String url, List<NameValuePair> formParams) {
         CloseableHttpClient httpClient = HttpClients.custom().setDefaultCookieStore(store).build();
+        HttpResponse response = null;
         try {
             UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(formParams, SendConstants.ENCODE);
             HttpPost postHttp = new HttpPost(url);
@@ -94,10 +96,17 @@ public class HtmlGrabUtil {
             // 设置HTTP Header
             setPostHeader(postHttp);
             postHttp.setEntity(formEntity);
-            HttpResponse response = httpClient.execute(postHttp);
+            response = httpClient.execute(postHttp);
             return response.getEntity();
         } catch (Exception e) {
             logger.info("发送post信息出错", e);
+        } finally {
+            try {
+                httpClient.close();
+                ((CloseableHttpResponse) response).close();
+            } catch (Exception e) {
+                logger.info("关闭流出错", e);
+            }
         }
         return null;
     }
@@ -127,15 +136,23 @@ public class HtmlGrabUtil {
 
     public HttpEntity sendGetFromUrl(String url) {
         CloseableHttpClient httpClient = HttpClients.custom().setDefaultCookieStore(store).build();
+        HttpResponse response = null;
         try {
             HttpGet getHttp = new HttpGet(url);
             getHttp.setConfig(requestConfig);
             // 设置HTTP Header
             setGetHeader(getHttp);
-            HttpResponse response = httpClient.execute(getHttp);
+            response = httpClient.execute(getHttp);
             return response.getEntity();
         } catch (Exception e) {
             logger.info("发送get信息出错", e);
+        } finally {
+            try {
+                httpClient.close();
+                ((CloseableHttpResponse) response).close();
+            } catch (Exception e) {
+                logger.info("关闭流出错", e);
+            }
         }
         return null;
     }
