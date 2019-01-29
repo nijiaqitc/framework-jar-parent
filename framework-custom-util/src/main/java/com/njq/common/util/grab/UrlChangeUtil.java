@@ -14,14 +14,14 @@ import java.util.zip.GZIPInputStream;
 public class UrlChangeUtil {
     public static String changeSrcUrl(String prefix, String src, String shortName, String savePlace) {
         String fileName = System.currentTimeMillis() + "";
+        String[] img = src.split("\\?")[0].split("\\/");
+        String[] imgName = img[img.length - 1].split("\\.");
+        if (imgName.length > 1) {
+            fileName += "." + imgName[1];
+        } else {
+            fileName += ".png";
+        }
         if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
-            String[] img = src.split("\\?")[0].split("\\/");
-            String[] imgName = img[img.length - 1].split("\\.");
-            if (imgName.length > 1) {
-                fileName += "." + imgName[1];
-            } else {
-                fileName += ".png";
-            }
             src = prefix + src;
         }
 
