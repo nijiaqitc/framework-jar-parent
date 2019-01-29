@@ -103,7 +103,6 @@ public class HtmlGrabUtil {
         } finally {
             try {
                 httpClient.close();
-                ((CloseableHttpResponse) response).close();
             } catch (Exception e) {
                 logger.info("关闭流出错", e);
             }
@@ -149,7 +148,6 @@ public class HtmlGrabUtil {
         } finally {
             try {
                 httpClient.close();
-                ((CloseableHttpResponse) response).close();
             } catch (Exception e) {
                 logger.info("关闭流出错", e);
             }
