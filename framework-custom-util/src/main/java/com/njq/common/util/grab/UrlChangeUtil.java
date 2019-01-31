@@ -1,5 +1,7 @@
 package com.njq.common.util.grab;
 
+import com.njq.common.util.string.IdGen;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -13,7 +15,7 @@ import java.util.zip.GZIPInputStream;
 
 public class UrlChangeUtil {
     public static String changeSrcUrl(String prefix, String src, String shortName, String savePlace) {
-        String fileName = System.currentTimeMillis() + "";
+        String fileName = String.valueOf(IdGen.get().nextId());
         String[] img = src.split("\\?")[0].split("\\/");
         String[] imgName = img[img.length - 1].split("\\.");
         if (imgName.length > 1) {
@@ -55,9 +57,9 @@ public class UrlChangeUtil {
             String[] img = src.split("\\?")[0].split("\\/");
             String url = getSrc(shortName, savePlace);
             try {
-                String saveRealPlace = savePlace + url+ "/" + img[img.length - 1];
+                String saveRealPlace = savePlace + url + "/" + img[img.length - 1];
                 downLoad(prefix + src, URLDecoder.decode(saveRealPlace, "UTF-8"), shortName);
-                return url+"/downLoadFile?file="+img[img.length - 1];
+                return url + "/downLoadFile?file=" + img[img.length - 1];
             } catch (Exception e) {
                 e.printStackTrace();
             }
