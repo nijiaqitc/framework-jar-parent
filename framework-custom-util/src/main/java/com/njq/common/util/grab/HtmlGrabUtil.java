@@ -1,9 +1,7 @@
 package com.njq.common.util.grab;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -21,7 +19,6 @@ import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,20 +70,15 @@ public class HtmlGrabUtil {
     }
 
     public void login(String url, String type, List<NameValuePair> formParams) {
-        store = new BasicCookieStore();
-        HttpEntity entity = sendPostFromUrl(url, formParams);
-        if (entity == null) {
-            return;
-        }
-        // 转化为文本信息, 设置爬取网页的字符集，防止乱码
         try {
-            EntityUtils.toString(entity, SendConstants.ENCODE);
-        } catch (ParseException | IOException e) {
+            store = new BasicCookieStore();
+            sendPostFromUrl(url, formParams);
+        } catch (Exception e) {
             logger.info("登录信息出错", e);
         }
     }
 
-    public HttpEntity sendPostFromUrl(String url, List<NameValuePair> formParams) {
+    public String sendPostFromUrl(String url, List<NameValuePair> formParams) {
         CloseableHttpClient httpClient = HttpClients.custom().setDefaultCookieStore(store).build();
         HttpResponse response = null;
         try {
@@ -97,12 +89,13 @@ public class HtmlGrabUtil {
             setPostHeader(postHttp);
             postHttp.setEntity(formEntity);
             response = httpClient.execute(postHttp);
-            return response.getEntity();
+            return EntityUtils.toString(response.getEntity(), SendConstants.ENCODE);
         } catch (Exception e) {
             logger.info("发送post信息出错", e);
         } finally {
             try {
                 httpClient.close();
+                ((CloseableHttpResponse) response).close();
             } catch (Exception e) {
                 logger.info("关闭流出错", e);
             }
@@ -121,19 +114,14 @@ public class HtmlGrabUtil {
 
     public String getContext(String url) {
         try {
-            HttpEntity entity = sendGetFromUrl(url);
-            if (entity == null) {
-                return "";
-            }
-            String content = EntityUtils.toString(entity, SendConstants.ENCODE);
-            return content;
-        } catch (ParseException | IOException e) {
+            return sendGetFromUrl(url);
+        } catch (Exception e) {
             logger.info("获取信息出错", e);
         }
         return "";
     }
 
-    public HttpEntity sendGetFromUrl(String url) {
+    public String sendGetFromUrl(String url) {
         CloseableHttpClient httpClient = HttpClients.custom().setDefaultCookieStore(store).build();
         HttpResponse response = null;
         try {
@@ -142,12 +130,22 @@ public class HtmlGrabUtil {
             // 设置HTTP Header
             setGetHeader(getHttp);
             response = httpClient.execute(getHttp);
-            return response.getEntity();
+            String charset = response.getEntity().getContentType().getValue().toUpperCase();
+            if (charset.contains(SendConstants.ENCODE)) {
+                return EntityUtils.toString(response.getEntity(), SendConstants.ENCODE);
+            } else if (charset.contains(SendConstants.GB)) {
+                return EntityUtils.toString(response.getEntity(), SendConstants.GB);
+            } else if (charset.contains(SendConstants.ISO)) {
+                return EntityUtils.toString(response.getEntity(), SendConstants.ISO);
+            } else {
+                return EntityUtils.toString(response.getEntity(), SendConstants.GBK);
+            }
         } catch (Exception e) {
             logger.info("发送get信息出错", e);
         } finally {
             try {
                 httpClient.close();
+                ((CloseableHttpResponse) response).close();
             } catch (Exception e) {
                 logger.info("关闭流出错", e);
             }
