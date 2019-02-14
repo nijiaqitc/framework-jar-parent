@@ -1,6 +1,8 @@
 package com.njq.common.util.grab;
 
 import com.njq.common.util.string.IdGen;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,6 +16,8 @@ import java.util.Date;
 import java.util.zip.GZIPInputStream;
 
 public class UrlChangeUtil {
+    private static final Logger logger = LoggerFactory.getLogger(UrlChangeUtil.class);
+
     public static String changeSrcUrl(String prefix, String src, String shortName, String savePlace) {
         String fileName = String.valueOf(IdGen.get().nextId());
         String[] img = src.split("\\?")[0].split("\\/");
@@ -31,7 +35,8 @@ public class UrlChangeUtil {
         try {
             downLoad(src, savePlace + url, shortName);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.info("下载出错", e);
+            return src;
         }
         return url;
     }
@@ -61,7 +66,8 @@ public class UrlChangeUtil {
                 downLoad(prefix + src, URLDecoder.decode(saveRealPlace, "UTF-8"), shortName);
                 return url + "/downLoadFile?file=" + img[img.length - 1];
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.info("下载出错", e);
+                return src;
             }
         }
         return null;
@@ -85,41 +91,55 @@ public class UrlChangeUtil {
                     SendConstants.UPGRADE_INSECURE_REQUESTS_VALUE);
             con.setRequestProperty(SendConstants.CACHE_CONTROL_NAME, SendConstants.CACHE_CONTROL_VALUE);
             con.setRequestProperty(SendConstants.COOKIE_NAME, HtmlGrabUtil.build(shortName).getCookieStr());
-            // con.setRequestProperty("Content-Type", "application/pdf");
         }
         // 输入流
         InputStream is = con.getInputStream();
         String code = con.getHeaderField(SendConstants.CONTENT_ENCODING_NAME);
-        if ((null != code) && code.equals(SendConstants.CONTENT_ENCODING_VALUE)) {
-            GZIPInputStream gis = new GZIPInputStream(is);
-            // 1K的数据缓冲
-            byte[] bs = new byte[1024];
-            // 读取到的数据长度
-            int len;
-            // 输出的文件流
-            OutputStream os = new FileOutputStream(fileName);
-            // 开始读取
-            while ((len = gis.read(bs)) != -1) {
-                os.write(bs, 0, len);
+        GZIPInputStream gis = null;
+        OutputStream os = null;
+        try {
+            if ((null != code) && code.equals(SendConstants.CONTENT_ENCODING_VALUE)) {
+                gis = new GZIPInputStream(is);
+                // 1K的数据缓冲
+                byte[] bs = new byte[1024];
+                // 读取到的数据长度
+                int len;
+                // 输出的文件流
+                os = new FileOutputStream(fileName);
+                // 开始读取
+                while ((len = gis.read(bs)) != -1) {
+                    os.write(bs, 0, len);
+                }
+            } else {
+                // 1K的数据缓冲
+                byte[] bs = new byte[1024];
+                // 读取到的数据长度
+                int len;
+                // 输出的文件流
+                os = new FileOutputStream(fileName);
+                // 开始读取
+                while ((len = is.read(bs)) != -1) {
+                    os.write(bs, 0, len);
+                }
             }
-            // 完毕，关闭所有链接
-            gis.close();
-            os.close();
-            is.close();
-        } else {
-            // 1K的数据缓冲
-            byte[] bs = new byte[1024];
-            // 读取到的数据长度
-            int len;
-            // 输出的文件流
-            OutputStream os = new FileOutputStream(fileName);
-            // 开始读取
-            while ((len = is.read(bs)) != -1) {
-                os.write(bs, 0, len);
+        } catch (Exception e) {
+            logger.info("报错啦啦啦", e);
+            throw e;
+        } finally {
+            logger.info("1111111111");
+            try {
+                if (gis != null) {
+                    gis.close();
+                }
+                if (os != null) {
+                    os.close();
+                }
+                if (is != null) {
+                    is.close();
+                }
+            } catch (Exception e1) {
+                logger.info("关闭流出错", e1);
             }
-            // 完毕，关闭所有链接
-            os.close();
-            is.close();
         }
     }
 }
