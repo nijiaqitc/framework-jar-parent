@@ -35,7 +35,7 @@ public class UrlChangeUtil {
         try {
             downLoad(src, savePlace + url, shortName);
         } catch (Exception e) {
-            logger.info("下载出错", e);
+            logger.error("下载出错", e);
             return src;
         }
         return url;
@@ -66,7 +66,7 @@ public class UrlChangeUtil {
                 downLoad(prefix + src, URLDecoder.decode(saveRealPlace, "UTF-8"), shortName);
                 return url + "/downLoadFile?file=" + img[img.length - 1];
             } catch (Exception e) {
-                logger.info("下载出错", e);
+                logger.error("下载出错", e);
                 return src;
             }
         }
@@ -123,7 +123,7 @@ public class UrlChangeUtil {
                 }
             }
         } catch (Exception e) {
-            logger.info("报错啦啦啦", e);
+            logger.error("转换图片出错", e);
             throw e;
         } finally {
             logger.info("1111111111");
@@ -138,7 +138,7 @@ public class UrlChangeUtil {
                     is.close();
                 }
             } catch (Exception e1) {
-                logger.info("关闭流出错", e1);
+                logger.error("关闭流出错", e1);
             }
         }
     }

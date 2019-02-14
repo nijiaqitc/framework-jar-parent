@@ -28,7 +28,7 @@ public class HtmlDecodeUtil {
                 return c;
             }
         } catch (Exception e) {
-            logger.info("执行js出错", e);
+            logger.error("执行js出错", e);
             throw new RuntimeException(e);
         } finally {
             try {
@@ -36,7 +36,7 @@ public class HtmlDecodeUtil {
                     reader.close();
                 }
             } catch (Exception e) {
-                logger.info("关闭流出错", e);
+                logger.error("关闭流出错", e);
             }
         }
         return "";
