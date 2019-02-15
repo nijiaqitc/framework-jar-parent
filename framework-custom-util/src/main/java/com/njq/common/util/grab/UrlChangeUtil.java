@@ -92,12 +92,12 @@ public class UrlChangeUtil {
             con.setRequestProperty(SendConstants.CACHE_CONTROL_NAME, SendConstants.CACHE_CONTROL_VALUE);
             con.setRequestProperty(SendConstants.COOKIE_NAME, HtmlGrabUtil.build(shortName).getCookieStr());
         }
-        // 输入流
-        InputStream is = con.getInputStream();
-        String code = con.getHeaderField(SendConstants.CONTENT_ENCODING_NAME);
+        InputStream is = null;
         GZIPInputStream gis = null;
         OutputStream os = null;
         try {
+            is = con.getInputStream();
+            String code = con.getHeaderField(SendConstants.CONTENT_ENCODING_NAME);
             if ((null != code) && code.equals(SendConstants.CONTENT_ENCODING_VALUE)) {
                 gis = new GZIPInputStream(is);
                 // 1K的数据缓冲
