@@ -126,7 +126,6 @@ public class UrlChangeUtil {
             logger.error("转换图片出错", e);
             throw e;
         } finally {
-            logger.info("1111111111");
             try {
                 if (gis != null) {
                     gis.close();
