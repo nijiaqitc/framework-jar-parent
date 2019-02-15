@@ -18,60 +18,7 @@ import java.util.zip.GZIPInputStream;
 public class UrlChangeUtil {
     private static final Logger logger = LoggerFactory.getLogger(UrlChangeUtil.class);
 
-    public static String changeSrcUrl(String prefix, String src, String shortName, String savePlace) {
-        String fileName = String.valueOf(IdGen.get().nextId());
-        String[] img = src.split("\\?")[0].split("\\/");
-        String[] imgName = img[img.length - 1].split("\\.");
-        if (imgName.length > 1) {
-            fileName += "." + imgName[1];
-        } else {
-            fileName += ".png";
-        }
-        if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
-            src = prefix + src;
-        }
 
-        String url = getSrc(shortName, savePlace) + "/" + fileName;
-        try {
-            downLoad(src, savePlace + url, shortName);
-        } catch (Exception e) {
-            logger.error("下载出错", e);
-            return src;
-        }
-        return url;
-    }
-
-    private static String getSrc(String shortName, String savePlace) {
-        Date timeCur = new Date();
-        SimpleDateFormat fmtYY = new SimpleDateFormat("yyyy");
-        SimpleDateFormat fmtMM = new SimpleDateFormat("MM");
-        SimpleDateFormat fmtDD = new SimpleDateFormat("dd");
-        String strYY = fmtYY.format(timeCur);
-        String strMM = fmtMM.format(timeCur);
-        String strDD = fmtDD.format(timeCur);
-        String url = "/" + shortName + "/" + strYY + strMM + strDD;
-        File dir = new File(savePlace + url);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        return url;
-    }
-
-    public static String changeFileUrl(String prefix, String src, String shortName, String savePlace) {
-        if (!src.startsWith(SendConstants.HTTP_PREFIX)) {
-            String[] img = src.split("\\?")[0].split("\\/");
-            String url = getSrc(shortName, savePlace);
-            try {
-                String saveRealPlace = savePlace + url + "/" + img[img.length - 1];
-                downLoad(prefix + src, URLDecoder.decode(saveRealPlace, "UTF-8"), shortName);
-                return url + "/downLoadFile?file=" + img[img.length - 1];
-            } catch (Exception e) {
-                logger.error("下载出错", e);
-                return src;
-            }
-        }
-        return null;
-    }
 
     public static void downLoad(String urlString, String fileName, String shortName) throws Exception {
         // 构造URL
