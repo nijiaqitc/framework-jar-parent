@@ -1,24 +1,17 @@
 package com.njq.common.util.grab;
 
-import com.njq.common.util.string.IdGen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.zip.GZIPInputStream;
 
 public class UrlChangeUtil {
     private static final Logger logger = LoggerFactory.getLogger(UrlChangeUtil.class);
-
-
 
     public static void downLoad(String urlString, String fileName, String shortName) throws Exception {
         // 构造URL
@@ -70,7 +63,7 @@ public class UrlChangeUtil {
                 }
             }
         } catch (Exception e) {
-            logger.error("转换图片出错", e);
+            logger.error("转换图片出错" + url, e);
             throw e;
         } finally {
             try {

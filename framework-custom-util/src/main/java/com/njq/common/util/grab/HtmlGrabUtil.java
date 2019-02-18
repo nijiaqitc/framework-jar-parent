@@ -74,7 +74,7 @@ public class HtmlGrabUtil {
             store = new BasicCookieStore();
             sendPostFromUrl(url, formParams);
         } catch (Exception e) {
-            logger.error("登录信息出错", e);
+            logger.error("登录信息出错"+url, e);
         }
     }
 
@@ -91,7 +91,7 @@ public class HtmlGrabUtil {
             response = httpClient.execute(postHttp);
             return EntityUtils.toString(response.getEntity(), SendConstants.ENCODE);
         } catch (Exception e) {
-            logger.error("发送post信息出错", e);
+            logger.error("发送post信息出错"+url, e);
         } finally {
             try {
                 httpClient.close();
@@ -116,7 +116,7 @@ public class HtmlGrabUtil {
         try {
             return sendGetFromUrl(url);
         } catch (Exception e) {
-            logger.error("获取信息出错", e);
+            logger.error("获取信息出错"+url, e);
         }
         return "";
     }
@@ -141,7 +141,7 @@ public class HtmlGrabUtil {
                 return EntityUtils.toString(response.getEntity(), SendConstants.GBK);
             }
         } catch (Exception e) {
-            logger.error("发送get信息出错", e);
+            logger.error("发送get信息出错"+url, e);
         } finally {
             try {
                 httpClient.close();
