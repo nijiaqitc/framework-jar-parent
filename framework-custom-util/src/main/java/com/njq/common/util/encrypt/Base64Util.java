@@ -128,7 +128,7 @@ public class Base64Util {
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-            String fileName = "/uploadImage/docpic/" + strYY + strMM + strDD + "/" + name + ".jpg";
+            String fileName = "/docpic/" + strYY + strMM + strDD + "/" + name + ".jpg";
             //新生成的图片
             String imgFilePath = realPath + "/" + name + ".jpg";
             OutputStream out = new FileOutputStream(imgFilePath);
