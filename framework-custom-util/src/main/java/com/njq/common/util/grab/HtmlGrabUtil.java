@@ -74,7 +74,7 @@ public class HtmlGrabUtil {
             store = new BasicCookieStore();
             sendPostFromUrl(url, formParams);
         } catch (Exception e) {
-            logger.error("登录信息出错"+url, e);
+            logger.error("登录信息出错" + url, e);
         }
     }
 
@@ -91,11 +91,15 @@ public class HtmlGrabUtil {
             response = httpClient.execute(postHttp);
             return EntityUtils.toString(response.getEntity(), SendConstants.ENCODE);
         } catch (Exception e) {
-            logger.error("发送post信息出错"+url, e);
+            logger.error("发送post信息出错" + url, e);
         } finally {
             try {
-                httpClient.close();
-                ((CloseableHttpResponse) response).close();
+                if (httpClient != null) {
+                    httpClient.close();
+                }
+                if (response != null) {
+                    ((CloseableHttpResponse) response).close();
+                }
             } catch (Exception e) {
                 logger.error("关闭流出错", e);
             }
@@ -116,7 +120,7 @@ public class HtmlGrabUtil {
         try {
             return sendGetFromUrl(url);
         } catch (Exception e) {
-            logger.error("获取信息出错"+url, e);
+            logger.error("获取信息出错" + url, e);
         }
         return "";
     }
@@ -141,11 +145,15 @@ public class HtmlGrabUtil {
                 return EntityUtils.toString(response.getEntity(), SendConstants.GBK);
             }
         } catch (Exception e) {
-            logger.error("发送get信息出错"+url, e);
+            logger.error("发送get信息出错" + url, e);
         } finally {
             try {
-                httpClient.close();
-                ((CloseableHttpResponse) response).close();
+                if (httpClient != null) {
+                    httpClient.close();
+                }
+                if (response != null) {
+                    ((CloseableHttpResponse) response).close();
+                }
             } catch (Exception e) {
                 logger.error("关闭流出错", e);
             }
