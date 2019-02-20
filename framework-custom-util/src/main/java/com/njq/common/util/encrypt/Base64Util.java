@@ -1,5 +1,7 @@
 package com.njq.common.util.encrypt;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -15,7 +17,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class Base64Util {
-
+    private static final Logger logger = LoggerFactory.getLogger(Base64Util.class);
 
     /**
      * base64位加密
@@ -29,7 +31,7 @@ public class Base64Util {
         try {
             b = str.getBytes("utf-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.error("字符串编码转换出错", e);
         }
         if (b != null) {
             s = new BASE64Encoder().encode(b);
@@ -52,7 +54,7 @@ public class Base64Util {
                 b = decoder.decodeBuffer(s);
                 result = new String(b, "utf-8");
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("base64解密失败", e);
             }
         }
         return result;
@@ -72,14 +74,13 @@ public class Base64Util {
             in = new FileInputStream(imgFile);
             data = new byte[in.available()];
             in.read(data);
-            in.close();
         } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
+            logger.error("图片转换base出错", e);
+        } finally {
             try {
                 in.close();
-            }catch (Exception e){
-
+            } catch (Exception e1) {
+                logger.error("关闭流出错", e1);
             }
         }
         //对字节数组Base64编码
@@ -100,10 +101,11 @@ public class Base64Util {
         /*
          * 对字节数组字符串进行Base64解码并生成图片
          */
-        if (imgStr == null){
+        if (imgStr == null) {
             return "";
         }
         BASE64Decoder decoder = new BASE64Decoder();
+        OutputStream out = null;
         try {
             //Base64解码
             byte[] b = decoder.decodeBuffer(imgStr);
@@ -131,13 +133,20 @@ public class Base64Util {
             String fileName = "/docpic/" + strYY + strMM + strDD + "/" + name + ".jpg";
             //新生成的图片
             String imgFilePath = realPath + "/" + name + ".jpg";
-            OutputStream out = new FileOutputStream(imgFilePath);
+            out = new FileOutputStream(imgFilePath);
             out.write(b);
             out.flush();
-            out.close();
             return fileName;
         } catch (Exception e) {
             return "";
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (Exception e1) {
+                    logger.error("关闭流出错", e1);
+                }
+            }
         }
     }
 
@@ -152,6 +161,7 @@ public class Base64Util {
             return "";
         }
         BASE64Decoder decoder = new BASE64Decoder();
+        OutputStream out = null;
         try {
             //Base64解码
             byte[] b = decoder.decodeBuffer(imgStr);
@@ -170,13 +180,21 @@ public class Base64Util {
             }
             //新生成的图片
             String imgFilePath = place + "/" + name + ".jpg";
-            OutputStream out = new FileOutputStream(imgFilePath);
+            out = new FileOutputStream(imgFilePath);
             out.write(b);
             out.flush();
             out.close();
             return name + ".jpg";
         } catch (Exception e) {
             return "";
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (Exception e1) {
+                    logger.error("关闭流出错", e1);
+                }
+            }
         }
     }
 }
