@@ -18,17 +18,26 @@ public class UrlChangeUtil {
         URL url = new URL(urlString);
         // 打开连接
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        /**
+         * 设置连接头信息
+         */
+        if (shortName != null) {
+            setConnection(con, shortName);
+        }
         if (con.getResponseCode() == 301) {
             con.disconnect();
             url = new URL(con.getHeaderField("Location"));
             con = (HttpURLConnection) url.openConnection();
         }
+        /**
+         * 设置连接头信息
+         */
+        if (shortName != null) {
+            setConnection(con, shortName);
+        }
         if(con.getResponseCode() != 200){
             logger.error("访问失败："+urlString+" 响应code："+con.getResponseCode());
             throw new RuntimeException("响应失败！ "+con.getResponseCode());
-        }
-        if (shortName != null) {
-            setConnection(con, shortName);
         }
         InputStream is = null;
         GZIPInputStream gis = null;
