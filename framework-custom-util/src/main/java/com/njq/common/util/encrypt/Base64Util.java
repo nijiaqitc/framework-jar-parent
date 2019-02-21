@@ -183,17 +183,16 @@ public class Base64Util {
             out = new FileOutputStream(imgFilePath);
             out.write(b);
             out.flush();
-            out.close();
             return name + ".jpg";
         } catch (Exception e) {
             return "";
         } finally {
-            if (out != null) {
-                try {
+            try {
+                if (out != null) {
                     out.close();
-                } catch (Exception e1) {
-                    logger.error("关闭流出错", e1);
                 }
+            } catch (Exception e1) {
+                logger.error("关闭流出错", e1);
             }
         }
     }
