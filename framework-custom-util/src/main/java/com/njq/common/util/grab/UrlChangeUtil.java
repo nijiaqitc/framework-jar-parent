@@ -28,12 +28,12 @@ public class UrlChangeUtil {
             con.disconnect();
             url = new URL(con.getHeaderField("Location"));
             con = (HttpURLConnection) url.openConnection();
-        }
-        /**
-         * 设置连接头信息
-         */
-        if (shortName != null) {
-            setConnection(con, shortName);
+            /**
+             * 设置连接头信息
+             */
+            if (shortName != null) {
+                setConnection(con, shortName);
+            }
         }
         if(con.getResponseCode() != 200){
             logger.error("访问失败："+urlString+" 响应code："+con.getResponseCode());
