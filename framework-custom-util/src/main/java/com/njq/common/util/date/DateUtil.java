@@ -1,10 +1,14 @@
 package com.njq.common.util.date;
 
+import org.apache.commons.lang3.tuple.Pair;
+import org.joda.time.DateTime;
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class DateUtil extends BaseDate {
 
@@ -276,7 +280,8 @@ public class DateUtil extends BaseDate {
     /**
      * 判断日期是否为空，如果为空返回当月第一天
      *
-     * @param date传入日期
+     * @param start
+     * @param end
      * @return
      */
     public static Date isNullToFirstDay(Date start, Date end) {
@@ -307,7 +312,8 @@ public class DateUtil extends BaseDate {
     /**
      * 判断日期是否为空，如果为空返回当月最后一天
      *
-     * @param date传入日期
+     * @param start
+     * @param end
      * @return
      */
     public static Date isNullToLastDay(Date start, Date end) {
@@ -389,5 +395,27 @@ public class DateUtil extends BaseDate {
         calendar.set(Calendar.MINUTE, 59);
         calendar.set(Calendar.SECOND, 59);
         return calendar.getTime();
+    }
+
+    public static Pair getPeriodTime(String date, int periodDay) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            return getPeriodTime(sdf.parse(date), periodDay);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Pair getPeriodTime(Date date, int periodDay) {
+        DateTime begin = new DateTime(date);
+        DateTime end = new DateTime(new Date());
+        int dd = 5;
+        long millDay = TimeUnit.DAYS.toMillis(1);
+        int days = (int) ((end.getMillis() - begin.getMillis()) / millDay);
+        int periodTime = days / dd;
+        DateTime periodStartTime = begin.plusDays(periodTime * dd);
+        DateTime periodEndTime = begin.plusDays((periodTime + 1) * dd);
+        return Pair.of(periodStartTime.toDate(), periodEndTime.toDate());
     }
 }
