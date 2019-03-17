@@ -572,6 +572,15 @@ public class StringUtil {
         }
     }
 
+    public static String[] urlsplit(String url) {
+    	if(isEmpty(url)) {
+    		return null;
+    	}else {
+    		String[] sa = url.split("\\?")[0].split("\\/");
+    		return sa;
+    	}
+    }
+    
     public static String urlEncode(String str) {
         return urlEncode(str, (String) null);
     }
