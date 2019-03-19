@@ -89,7 +89,10 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.25</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -124,5 +127,7 @@
 
     <modules>
         <module>framework-custom-util</module>
+        <module>framework-common-exception</module>
+        <module>framework-common-enumreg</module>
     </modules>
 </project>
