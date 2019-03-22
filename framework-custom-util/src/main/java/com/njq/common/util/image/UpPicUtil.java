@@ -17,6 +17,25 @@ import java.net.URL;
 public class UpPicUtil {
     private static Logger logger = LoggerFactory.getLogger(UpPicUtil.class);
 
+    public static void upByte(byte[] b, String realPath) {
+        OutputStream out = null;
+        try {
+            out = new FileOutputStream(realPath);
+            out.write(b);
+            out.flush();
+        } catch (Exception e) {
+            logger.error("上传图片出错", e);
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (Exception e1) {
+                logger.error("关闭流出错", e1);
+            }
+        }
+    }
+
 
     /**
      * 上传二进制图片
