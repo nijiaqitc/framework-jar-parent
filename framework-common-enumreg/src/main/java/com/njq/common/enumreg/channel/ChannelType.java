@@ -12,7 +12,7 @@ public enum ChannelType implements ValueDescription {
 	CNBLOGS("cnblogs", "博客园"),
 	CSDN("csdn","csdn"),
 	YXL("yxl","系列文章"),
-	SBANNER("sbanner","banner图"),
+	SBANNER("banner","banner图"),
 	YH_WIKI("yhwiki", "永辉的wiki文档");
 
 	private String value;
