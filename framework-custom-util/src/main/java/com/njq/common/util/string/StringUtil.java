@@ -584,7 +584,7 @@ public class StringUtil {
     public static String urlPostfix(String url){
         String[] strArray=urlsplit(url);
         if(strArray != null){
-            String[] st =strArray[strArray.length-1].split(".");
+            String[] st =strArray[strArray.length-1].split("\\.");
             if(st.length>1) {
                 return st[1];
             }
