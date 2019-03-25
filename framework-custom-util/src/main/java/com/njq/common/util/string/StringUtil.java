@@ -580,7 +580,18 @@ public class StringUtil {
     		return sa;
     	}
     }
-    
+
+    public static String urlPostfix(String url){
+        String[] strArray=urlsplit(url);
+        if(strArray != null){
+            String[] st =strArray[strArray.length-1].split(".");
+            if(st.length>1) {
+                return st[1];
+            }
+        }
+        return null;
+    }
+
     public static String urlEncode(String str) {
         return urlEncode(str, (String) null);
     }
