@@ -1,5 +1,6 @@
 package com.njq.common.util.grab;
 
+import com.njq.common.util.string.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +14,7 @@ import java.util.zip.GZIPInputStream;
 public class UrlChangeUtil {
     private static final Logger logger = LoggerFactory.getLogger(UrlChangeUtil.class);
 
-    public static void downLoad(String urlString, String fileName, String shortName) throws Exception {
+    public static void downLoad(String urlString, String fileName, String cookieStore) throws Exception {
         // 构造URL
         URL url = new URL(urlString);
         // 打开连接
@@ -21,8 +22,8 @@ public class UrlChangeUtil {
         /**
          * 设置连接头信息
          */
-        if (shortName != null) {
-            setConnection(con, shortName);
+        if (!StringUtil.isEmpty(cookieStore)) {
+            setConnection(con, cookieStore);
         }
         if (con.getResponseCode() == 301) {
             con.disconnect();
@@ -31,13 +32,16 @@ public class UrlChangeUtil {
             /**
              * 设置连接头信息
              */
-            if (shortName != null) {
-                setConnection(con, shortName);
+            if (!StringUtil.isEmpty(cookieStore)) {
+                setConnection(con, cookieStore);
             }
         }
-        if(con.getResponseCode() != 200){
-            logger.error("访问失败："+urlString+" 响应code："+con.getResponseCode());
-            throw new RuntimeException("响应失败！ "+con.getResponseCode());
+        if (con.getResponseCode() != 200) {
+            logger.error("访问失败：" + urlString + " 响应code：" + con.getResponseCode());
+            throw new RuntimeException("响应失败！ " + con.getResponseCode());
+        }
+        if(con.getContentType().contains("text/html")){
+            throw new RuntimeException("读取到了html，请检查是否要登录或源文件已失效！");
         }
         InputStream is = null;
         GZIPInputStream gis = null;
@@ -93,7 +97,7 @@ public class UrlChangeUtil {
     }
 
 
-    public static void setConnection(HttpURLConnection con, String shortName) {
+    public static void setConnection(HttpURLConnection con, String cookieStore) {
         con.setConnectTimeout(30000);
         con.setReadTimeout(30000);
         con.setRequestProperty(SendConstants.USER_AGENT_NAME, SendConstants.USER_AGENT_VALUE);
@@ -105,6 +109,6 @@ public class UrlChangeUtil {
         con.setRequestProperty(SendConstants.UPGRADE_INSECURE_REQUESTS_NAME,
                 SendConstants.UPGRADE_INSECURE_REQUESTS_VALUE);
         con.setRequestProperty(SendConstants.CACHE_CONTROL_NAME, SendConstants.CACHE_CONTROL_VALUE);
-        con.setRequestProperty(SendConstants.COOKIE_NAME, HtmlGrabUtil.build(shortName).getCookieStr());
+        con.setRequestProperty(SendConstants.COOKIE_NAME, cookieStore);
     }
 }
