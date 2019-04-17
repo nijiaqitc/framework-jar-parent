@@ -12,6 +12,7 @@ public enum CacheNamePrefixEnum implements ValueDescription {
 	DOCLIST_FOR_QUERY("yxl", "docList", "系列文章"),
 	INDEX_BANNER_INFO("index","banner","首页banner信息"),
 	GRAB_MENU("grab","menu","菜单目录"),
+	YXL_TYPE("yxl","type","系列类型"),
 	GRAB_LOGIN_TOKEN("grab", "loginToken", "登录cookie");
 	private String cacheGroup;
 	private String cacheName;
