@@ -13,6 +13,7 @@ public enum CacheNamePrefixEnum implements ValueDescription {
 	INDEX_BANNER_INFO("index","banner","首页banner信息"),
 	GRAB_MENU("grab","menu","菜单目录"),
 	YXL_TYPE("yxl","type","系列类型"),
+	EXAMINATIONS("examinations","exams","题目"),
 	GRAB_LOGIN_TOKEN("grab", "loginToken", "登录cookie");
 	private String cacheGroup;
 	private String cacheName;

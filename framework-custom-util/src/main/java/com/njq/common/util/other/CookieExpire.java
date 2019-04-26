@@ -12,7 +12,7 @@ public enum CookieExpire {
 	 * FOURTY_FIVE 45min
 	 * SIXTY   60min
 	 */
-	ONE(1),FIVE(5),FIFTEEN(15),THIRTY(30),FOURTY_FIVE(45), SIXTY(60),SEVEN_DAY(10080);
+	ONE(1),FIVE(5),FIFTEEN(15),THIRTY(30),FOURTY_FIVE(45), SIXTY(60),Day(1440),SEVEN_DAY(10080);
 
 	private int expireTime; 
 	
