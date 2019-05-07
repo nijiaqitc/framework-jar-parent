@@ -9,6 +9,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.cookie.Cookie;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -106,6 +107,36 @@ public class HtmlGrabUtil {
         }
         return null;
     }
+
+    public String sendPostFromUrlJson(String url, String jsonStr) {
+        CloseableHttpClient httpClient = HttpClients.custom().setDefaultCookieStore(store).build();
+        HttpResponse response = null;
+        try {
+            StringEntity formEntity = new StringEntity(jsonStr, SendConstants.ENCODE);
+            HttpPost postHttp = new HttpPost(url);
+            postHttp.setConfig(requestConfig);
+            // 设置HTTP Header
+            setPostHeader(postHttp);
+            postHttp.setEntity(formEntity);
+            response = httpClient.execute(postHttp);
+            return EntityUtils.toString(response.getEntity(), SendConstants.ENCODE);
+        } catch (Exception e) {
+            logger.error("发送post信息出错" + url, e);
+        } finally {
+            try {
+                if (httpClient != null) {
+                    httpClient.close();
+                }
+                if (response != null) {
+                    ((CloseableHttpResponse) response).close();
+                }
+            } catch (Exception e) {
+                logger.error("关闭流出错", e);
+            }
+        }
+        return null;
+    }
+
 
     public Document getDoc(String url) {
         String doc = getContext(url);
