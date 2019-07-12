@@ -200,11 +200,12 @@ public class HtmlGrabUtil {
         // postHttp.addHeader("Referer","http://wiki.yonghuivip.com/");
         // postHttp.addHeader("Host","wiki.yonghuivip.com");
         // postHttp.addHeader("Origin","http://wiki.yonghuivip.com");
-        postHttp.addHeader(SendConstants.HEAD_IP_1, "114.91.82.46");
-        postHttp.addHeader(SendConstants.HEAD_IP_2, "114.91.82.46");
-        postHttp.addHeader(SendConstants.HEAD_IP_3, "114.91.82.46");
-        postHttp.addHeader(SendConstants.HEAD_IP_4, "114.91.82.46");
-        postHttp.addHeader(SendConstants.HEAD_IP_5, "114.91.82.46");
+        String moIp=GenerateRandomIpUtil.getRandomIp();
+        postHttp.addHeader(SendConstants.HEAD_IP_1, moIp);
+        postHttp.addHeader(SendConstants.HEAD_IP_2, moIp);
+        postHttp.addHeader(SendConstants.HEAD_IP_3, moIp);
+        postHttp.addHeader(SendConstants.HEAD_IP_4, moIp);
+        postHttp.addHeader(SendConstants.HEAD_IP_5, moIp);
     }
 
     private void setGetHeader(HttpGet getHttp) {
@@ -212,11 +213,12 @@ public class HtmlGrabUtil {
         getHttp.addHeader(SendConstants.CONTENT_TYPE_NAME, SendConstants.CONTENT_TYPE_VALUE);
         getHttp.addHeader(SendConstants.X_REQUESTED_WITH_NAME, SendConstants.X_REQUESTED_WITH_VALUE);
 
-        getHttp.addHeader(SendConstants.HEAD_IP_1, "114.91.82.46");
-        getHttp.addHeader(SendConstants.HEAD_IP_2, "114.91.82.46");
-        getHttp.addHeader(SendConstants.HEAD_IP_3, "114.91.82.46");
-        getHttp.addHeader(SendConstants.HEAD_IP_4, "114.91.82.46");
-        getHttp.addHeader(SendConstants.HEAD_IP_5, "114.91.82.46");
+        String moIp=GenerateRandomIpUtil.getRandomIp();
+        getHttp.addHeader(SendConstants.HEAD_IP_1, moIp);
+        getHttp.addHeader(SendConstants.HEAD_IP_2, moIp);
+        getHttp.addHeader(SendConstants.HEAD_IP_3, moIp);
+        getHttp.addHeader(SendConstants.HEAD_IP_4, moIp);
+        getHttp.addHeader(SendConstants.HEAD_IP_5, moIp);
     }
 
 
