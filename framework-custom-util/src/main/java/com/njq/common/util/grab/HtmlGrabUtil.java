@@ -200,6 +200,11 @@ public class HtmlGrabUtil {
         // postHttp.addHeader("Referer","http://wiki.yonghuivip.com/");
         // postHttp.addHeader("Host","wiki.yonghuivip.com");
         // postHttp.addHeader("Origin","http://wiki.yonghuivip.com");
+        postHttp.addHeader(SendConstants.HEAD_IP_1, "114.91.82.46");
+        postHttp.addHeader(SendConstants.HEAD_IP_2, "114.91.82.46");
+        postHttp.addHeader(SendConstants.HEAD_IP_3, "114.91.82.46");
+        postHttp.addHeader(SendConstants.HEAD_IP_4, "114.91.82.46");
+        postHttp.addHeader(SendConstants.HEAD_IP_5, "114.91.82.46");
     }
 
     private void setGetHeader(HttpGet getHttp) {
