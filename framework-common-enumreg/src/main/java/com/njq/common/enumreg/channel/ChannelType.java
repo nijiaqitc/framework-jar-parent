@@ -13,7 +13,9 @@ public enum ChannelType implements ValueDescription {
 	CSDN("csdn","csdn"),
 	YXL("yxl","系列文章"),
 	SBANNER("banner","banner图"),
-	YH_WIKI("yhwiki", "永辉的wiki文档");
+	YH_WIKI("yhwiki", "永辉的wiki文档"),
+	QI_SHU("qishu", "qishu"),
+	XIANGCUN("xiangcunxiaoshuo","xiangcunxiaoshuo");
 
 	private String value;
 	private String description;
