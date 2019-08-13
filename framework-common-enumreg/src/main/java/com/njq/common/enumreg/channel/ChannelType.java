@@ -17,6 +17,9 @@ public enum ChannelType implements ValueDescription {
 	QI_SHU("qishu", "qishu"),
 	BBIQUGE("bbiquge","bbiquge"),
 	QIDIAN("qidian","qidian"),
+	DINGDIAN("dingdian","dingdian"),
+	ZONGHENG("zongheng","zongheng"),
+	XIAOXIANGSHUYUAN("xiaoxiangshuyuan","xiaoxiangshuyuan"),
 	XIANGCUN("xiangcunxiaoshuo","xiangcunxiaoshuo");
 
 	private String value;
