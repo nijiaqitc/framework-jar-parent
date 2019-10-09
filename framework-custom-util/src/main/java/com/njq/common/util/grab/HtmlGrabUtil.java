@@ -66,6 +66,15 @@ public class HtmlGrabUtil {
         return customMap.get(key);
     }
 
+    /**
+     * 构建多例的对象
+     * @param key
+     * @return
+     */
+    public static HtmlGrabUtil buildProto(String key) {
+        return new HtmlGrabUtil();
+    }
+
     public HtmlGrabUtil setCookie(String key, String value,String domain) {
         store = new BasicCookieStore();
         if (StringUtil2.IsNotEmpty(key)) {
