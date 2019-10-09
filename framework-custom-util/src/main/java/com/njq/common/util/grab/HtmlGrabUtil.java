@@ -1,5 +1,6 @@
 package com.njq.common.util.grab;
 
+import com.njq.common.util.string.StringUtil2;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.CookieStore;
@@ -13,6 +14,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
@@ -30,6 +32,8 @@ public class HtmlGrabUtil {
     public static Map<String, HtmlGrabUtil> customMap = new HashMap<>();
     private CookieStore store;
     private RequestConfig requestConfig;
+    private String moIp;
+    private Boolean randomIpFlag = true;
 
     public HtmlGrabUtil() {
         requestConfig = RequestConfig.custom().setConnectionRequestTimeout(10 * 1000).setConnectTimeout(10 * 1000)
@@ -45,7 +49,7 @@ public class HtmlGrabUtil {
         if (this.store != null) {
             List<Cookie> cookies = store.getCookies();
             for (int i = 0; i < cookies.size(); i++) {
-                str += cookies.get(i).getName() + "=" + cookies.get(i).getValue();
+                str += cookies.get(i).getName() + "=" + cookies.get(i).getValue()+";";
             }
         }
         return str;
@@ -60,6 +64,42 @@ public class HtmlGrabUtil {
             }
         }
         return customMap.get(key);
+    }
+
+    public HtmlGrabUtil setCookie(String key, String value,String domain) {
+        store = new BasicCookieStore();
+        if (StringUtil2.IsNotEmpty(key)) {
+            BasicClientCookie bcookie = new BasicClientCookie(key, value);
+            if(StringUtil2.IsNotEmpty(domain)){
+                //domain 必须用.开始,  domain指可以访问该cookie的域名
+                bcookie.setDomain(domain);
+            }
+            bcookie.setPath("/");
+            store.addCookie(bcookie);
+        }
+        return this;
+    }
+
+    public HtmlGrabUtil setFlag(boolean flag) {
+        this.randomIpFlag = flag;
+        return this;
+    }
+
+    /**
+     * 默认随机产生ip
+     */
+    public HtmlGrabUtil randomSendIp() {
+        moIp = GenerateRandomIpUtil.getRandomIp();
+        return this;
+    }
+
+    public HtmlGrabUtil setSendIp(String ip) {
+        moIp = ip;
+        return this;
+    }
+
+    public String getSendIp() {
+        return moIp;
     }
 
     public void login(String url, String type, Map<String, String> paramsMap) {
@@ -147,6 +187,16 @@ public class HtmlGrabUtil {
         }
     }
 
+    public Document getDoc(String url, String key, String value,String domain) {
+        setCookie(key, value,domain);
+        String doc = getContext(url);
+        if (doc == null) {
+            return null;
+        } else {
+            return Jsoup.parse(doc);
+        }
+    }
+
     public String getContext(String url) {
         try {
             return sendGetFromUrl(url);
@@ -196,11 +246,12 @@ public class HtmlGrabUtil {
         postHttp.setHeader(SendConstants.USER_AGENT_NAME, SendConstants.USER_AGENT_VALUE);
         postHttp.addHeader(SendConstants.CONTENT_TYPE_NAME, SendConstants.CONTENT_TYPE_VALUE);
         postHttp.addHeader(SendConstants.X_REQUESTED_WITH_NAME, SendConstants.X_REQUESTED_WITH_VALUE);
-
         // postHttp.addHeader("Referer","http://wiki.yonghuivip.com/");
         // postHttp.addHeader("Host","wiki.yonghuivip.com");
         // postHttp.addHeader("Origin","http://wiki.yonghuivip.com");
-        String moIp=GenerateRandomIpUtil.getRandomIp();
+        if (randomIpFlag) {
+            randomSendIp();
+        }
         postHttp.addHeader(SendConstants.HEAD_IP_1, moIp);
         postHttp.addHeader(SendConstants.HEAD_IP_2, moIp);
         postHttp.addHeader(SendConstants.HEAD_IP_3, moIp);
@@ -212,8 +263,9 @@ public class HtmlGrabUtil {
         getHttp.setHeader(SendConstants.USER_AGENT_NAME, SendConstants.USER_AGENT_VALUE);
         getHttp.addHeader(SendConstants.CONTENT_TYPE_NAME, SendConstants.CONTENT_TYPE_VALUE);
         getHttp.addHeader(SendConstants.X_REQUESTED_WITH_NAME, SendConstants.X_REQUESTED_WITH_VALUE);
-
-        String moIp=GenerateRandomIpUtil.getRandomIp();
+        if (randomIpFlag) {
+            randomSendIp();
+        }
         getHttp.addHeader(SendConstants.HEAD_IP_1, moIp);
         getHttp.addHeader(SendConstants.HEAD_IP_2, moIp);
         getHttp.addHeader(SendConstants.HEAD_IP_3, moIp);
