@@ -138,7 +138,7 @@ public class HtmlGrabUtil {
             postHttp.setConfig(requestConfig);
             // 设置HTTP Header
             setPostHeader(postHttp);
-            logger.info("grab开始发送post请求----ip:" + postHttp.getHeaders(SendConstants.HEAD_IP_1) + "----发送的url：---" + url);
+            logger.info("grab开始发送post请求----ip:" + moIp + "----发送的url：---" + url);
             postHttp.setEntity(formEntity);
             response = httpClient.execute(postHttp);
             return EntityUtils.toString(response.getEntity(), SendConstants.ENCODE);
@@ -168,7 +168,7 @@ public class HtmlGrabUtil {
             postHttp.setConfig(requestConfig);
             // 设置HTTP Header
             setPostHeader(postHttp);
-            logger.info("grab开始发送post请求----ip:" + postHttp.getHeaders(SendConstants.HEAD_IP_1) + "----发送的url：---" + url);
+            logger.info("grab开始发送post请求----ip:" + moIp + "----发送的url：---" + url);
             postHttp.setEntity(formEntity);
             response = httpClient.execute(postHttp);
             return EntityUtils.toString(response.getEntity(), SendConstants.ENCODE);
@@ -226,7 +226,7 @@ public class HtmlGrabUtil {
             getHttp.setConfig(requestConfig);
             // 设置HTTP Header
             setGetHeader(getHttp);
-            logger.info("grab开始发送get请求----ip:" + getHttp.getHeaders(SendConstants.HEAD_IP_1) + "----发送的url：---" + url);
+            logger.info("grab开始发送get请求----ip:" + moIp + "----发送的url：---" + url);
             response = httpClient.execute(getHttp);
             String charset = response.getEntity().getContentType().getValue().toUpperCase();
             if (charset.contains(SendConstants.ENCODE)) {
