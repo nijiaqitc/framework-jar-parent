@@ -21,6 +21,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.management.resources.agent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -251,10 +252,17 @@ public class HtmlGrabUtil {
         return null;
     }
 
+
+
     private void setPostHeader(HttpPost postHttp) {
-        postHttp.setHeader(SendConstants.USER_AGENT_NAME, SendConstants.USER_AGENT_VALUE);
+        if(this.getUserAgent() != null){
+            postHttp.setHeader(SendConstants.USER_AGENT_NAME, this.getUserAgent());
+        }else{
+            postHttp.setHeader(SendConstants.USER_AGENT_NAME, SendConstants.USER_AGENT_VALUE);
+        }
         postHttp.addHeader(SendConstants.CONTENT_TYPE_NAME, SendConstants.CONTENT_TYPE_VALUE);
-        postHttp.addHeader(SendConstants.X_REQUESTED_WITH_NAME, SendConstants.X_REQUESTED_WITH_VALUE);
+//        postHttp.addHeader(SendConstants.X_REQUESTED_WITH_NAME, SendConstants.X_REQUESTED_WITH_VALUE);
+
         // postHttp.addHeader("Referer","http://wiki.yonghuivip.com/");
         // postHttp.addHeader("Host","wiki.yonghuivip.com");
         // postHttp.addHeader("Origin","http://wiki.yonghuivip.com");
@@ -269,9 +277,13 @@ public class HtmlGrabUtil {
     }
 
     private void setGetHeader(HttpGet getHttp) {
-        getHttp.setHeader(SendConstants.USER_AGENT_NAME, SendConstants.USER_AGENT_VALUE);
+        if(this.getUserAgent() != null){
+            getHttp.setHeader(SendConstants.USER_AGENT_NAME, this.getUserAgent());
+        }else{
+            getHttp.setHeader(SendConstants.USER_AGENT_NAME, SendConstants.USER_AGENT_VALUE);
+        }
         getHttp.addHeader(SendConstants.CONTENT_TYPE_NAME, SendConstants.CONTENT_TYPE_VALUE);
-        getHttp.addHeader(SendConstants.X_REQUESTED_WITH_NAME, SendConstants.X_REQUESTED_WITH_VALUE);
+//        getHttp.addHeader(SendConstants.X_REQUESTED_WITH_NAME, SendConstants.X_REQUESTED_WITH_VALUE);
         if (randomIpFlag) {
             randomSendIp();
         }
@@ -282,5 +294,15 @@ public class HtmlGrabUtil {
         getHttp.addHeader(SendConstants.HEAD_IP_5, moIp);
     }
 
+    private String userAgent;
+
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    public HtmlGrabUtil setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
+        return this;
+    }
 
 }
