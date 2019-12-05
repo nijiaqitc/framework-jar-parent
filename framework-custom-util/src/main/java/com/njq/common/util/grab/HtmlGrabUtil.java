@@ -21,7 +21,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.management.resources.agent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +49,7 @@ public class HtmlGrabUtil {
         if (this.store != null) {
             List<Cookie> cookies = store.getCookies();
             for (int i = 0; i < cookies.size(); i++) {
-                str += cookies.get(i).getName() + "=" + cookies.get(i).getValue()+";";
+                str += cookies.get(i).getName() + "=" + cookies.get(i).getValue() + ";";
             }
         }
         return str;
@@ -69,6 +68,7 @@ public class HtmlGrabUtil {
 
     /**
      * 构建多例的对象
+     *
      * @param key
      * @return
      */
@@ -76,11 +76,11 @@ public class HtmlGrabUtil {
         return new HtmlGrabUtil();
     }
 
-    public HtmlGrabUtil setCookie(String key, String value,String domain) {
+    public HtmlGrabUtil setCookie(String key, String value, String domain) {
         store = new BasicCookieStore();
         if (StringUtil2.IsNotEmpty(key)) {
             BasicClientCookie bcookie = new BasicClientCookie(key, value);
-            if(StringUtil2.IsNotEmpty(domain)){
+            if (StringUtil2.IsNotEmpty(domain)) {
                 //domain 必须用.开始,  domain指可以访问该cookie的域名
                 bcookie.setDomain(domain);
             }
@@ -138,6 +138,7 @@ public class HtmlGrabUtil {
             postHttp.setConfig(requestConfig);
             // 设置HTTP Header
             setPostHeader(postHttp);
+            logger.info("grab开始发送post请求----ip:" + postHttp.getHeaders(SendConstants.HEAD_IP_1) + "----发送的url：---" + url);
             postHttp.setEntity(formEntity);
             response = httpClient.execute(postHttp);
             return EntityUtils.toString(response.getEntity(), SendConstants.ENCODE);
@@ -167,6 +168,7 @@ public class HtmlGrabUtil {
             postHttp.setConfig(requestConfig);
             // 设置HTTP Header
             setPostHeader(postHttp);
+            logger.info("grab开始发送post请求----ip:" + postHttp.getHeaders(SendConstants.HEAD_IP_1) + "----发送的url：---" + url);
             postHttp.setEntity(formEntity);
             response = httpClient.execute(postHttp);
             return EntityUtils.toString(response.getEntity(), SendConstants.ENCODE);
@@ -197,8 +199,8 @@ public class HtmlGrabUtil {
         }
     }
 
-    public Document getDoc(String url, String key, String value,String domain) {
-        setCookie(key, value,domain);
+    public Document getDoc(String url, String key, String value, String domain) {
+        setCookie(key, value, domain);
         String doc = getContext(url);
         if (doc == null) {
             return null;
@@ -224,6 +226,7 @@ public class HtmlGrabUtil {
             getHttp.setConfig(requestConfig);
             // 设置HTTP Header
             setGetHeader(getHttp);
+            logger.info("grab开始发送get请求----ip:" + getHttp.getHeaders(SendConstants.HEAD_IP_1) + "----发送的url：---" + url);
             response = httpClient.execute(getHttp);
             String charset = response.getEntity().getContentType().getValue().toUpperCase();
             if (charset.contains(SendConstants.ENCODE)) {
@@ -253,11 +256,10 @@ public class HtmlGrabUtil {
     }
 
 
-
     private void setPostHeader(HttpPost postHttp) {
-        if(this.getUserAgent() != null){
+        if (this.getUserAgent() != null) {
             postHttp.setHeader(SendConstants.USER_AGENT_NAME, this.getUserAgent());
-        }else{
+        } else {
             postHttp.setHeader(SendConstants.USER_AGENT_NAME, SendConstants.USER_AGENT_VALUE);
         }
         postHttp.addHeader(SendConstants.CONTENT_TYPE_NAME, SendConstants.CONTENT_TYPE_VALUE);
@@ -277,9 +279,9 @@ public class HtmlGrabUtil {
     }
 
     private void setGetHeader(HttpGet getHttp) {
-        if(this.getUserAgent() != null){
+        if (this.getUserAgent() != null) {
             getHttp.setHeader(SendConstants.USER_AGENT_NAME, this.getUserAgent());
-        }else{
+        } else {
             getHttp.setHeader(SendConstants.USER_AGENT_NAME, SendConstants.USER_AGENT_VALUE);
         }
         getHttp.addHeader(SendConstants.CONTENT_TYPE_NAME, SendConstants.CONTENT_TYPE_VALUE);
