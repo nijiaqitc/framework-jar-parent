@@ -15,6 +15,7 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.cookie.BasicClientCookie;
+import org.apache.http.message.AbstractHttpMessage;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
@@ -137,8 +138,8 @@ public class HtmlGrabUtil {
             HttpPost postHttp = new HttpPost(url);
             postHttp.setConfig(requestConfig);
             // 设置HTTP Header
-            setPostHeader(postHttp);
-            logger.info("grab开始发送post请求----ip:" + moIp + "----发送的url：---" + url);
+            setPostHeader(postHttp, null);
+            logger.info("grab开始发送post请求----ip:" + moIp + "----发送的url：---" + url+" 参数："+formParams);
             postHttp.setEntity(formEntity);
             response = httpClient.execute(postHttp);
             return EntityUtils.toString(response.getEntity(), SendConstants.ENCODE);
@@ -167,8 +168,8 @@ public class HtmlGrabUtil {
             HttpPost postHttp = new HttpPost(url);
             postHttp.setConfig(requestConfig);
             // 设置HTTP Header
-            setPostHeader(postHttp);
-            logger.info("grab开始发送post请求----ip:" + moIp + "----发送的url：---" + url);
+            setPostHeader(postHttp, "json");
+            logger.info("grab开始发送post请求----ip:" + moIp + "----发送的url：---" + url +"参数："+jsonStr);
             postHttp.setEntity(formEntity);
             response = httpClient.execute(postHttp);
             return EntityUtils.toString(response.getEntity(), SendConstants.ENCODE);
@@ -256,44 +257,42 @@ public class HtmlGrabUtil {
     }
 
 
-    private void setPostHeader(HttpPost postHttp) {
-        if (this.getUserAgent() != null) {
-            postHttp.setHeader(SendConstants.USER_AGENT_NAME, this.getUserAgent());
+    private void setPostHeader(HttpPost postHttp, String postType) {
+        setUserAgent(postHttp);
+        if ("json".equals(postType)) {
+            postHttp.addHeader(SendConstants.CONTENT_TYPE_NAME, "application/json; charset=UTF-8");
         } else {
-            postHttp.setHeader(SendConstants.USER_AGENT_NAME, SendConstants.USER_AGENT_VALUE);
+            postHttp.addHeader(SendConstants.CONTENT_TYPE_NAME, SendConstants.CONTENT_TYPE_VALUE);
         }
-        postHttp.addHeader(SendConstants.CONTENT_TYPE_NAME, SendConstants.CONTENT_TYPE_VALUE);
-//        postHttp.addHeader(SendConstants.X_REQUESTED_WITH_NAME, SendConstants.X_REQUESTED_WITH_VALUE);
-
-        // postHttp.addHeader("Referer","http://wiki.yonghuivip.com/");
-        // postHttp.addHeader("Host","wiki.yonghuivip.com");
-        // postHttp.addHeader("Origin","http://wiki.yonghuivip.com");
         if (randomIpFlag) {
             randomSendIp();
         }
-        postHttp.addHeader(SendConstants.HEAD_IP_1, moIp);
-        postHttp.addHeader(SendConstants.HEAD_IP_2, moIp);
-        postHttp.addHeader(SendConstants.HEAD_IP_3, moIp);
-        postHttp.addHeader(SendConstants.HEAD_IP_4, moIp);
-        postHttp.addHeader(SendConstants.HEAD_IP_5, moIp);
+        setIp(postHttp);
     }
 
     private void setGetHeader(HttpGet getHttp) {
-        if (this.getUserAgent() != null) {
-            getHttp.setHeader(SendConstants.USER_AGENT_NAME, this.getUserAgent());
-        } else {
-            getHttp.setHeader(SendConstants.USER_AGENT_NAME, SendConstants.USER_AGENT_VALUE);
-        }
+        setUserAgent(getHttp);
         getHttp.addHeader(SendConstants.CONTENT_TYPE_NAME, SendConstants.CONTENT_TYPE_VALUE);
-//        getHttp.addHeader(SendConstants.X_REQUESTED_WITH_NAME, SendConstants.X_REQUESTED_WITH_VALUE);
         if (randomIpFlag) {
             randomSendIp();
         }
-        getHttp.addHeader(SendConstants.HEAD_IP_1, moIp);
-        getHttp.addHeader(SendConstants.HEAD_IP_2, moIp);
-        getHttp.addHeader(SendConstants.HEAD_IP_3, moIp);
-        getHttp.addHeader(SendConstants.HEAD_IP_4, moIp);
-        getHttp.addHeader(SendConstants.HEAD_IP_5, moIp);
+        setIp(getHttp);
+    }
+
+    private void setUserAgent(AbstractHttpMessage message) {
+        if (this.getUserAgent() != null) {
+            message.setHeader(SendConstants.USER_AGENT_NAME, this.getUserAgent());
+        } else {
+            message.setHeader(SendConstants.USER_AGENT_NAME, SendConstants.USER_AGENT_VALUE);
+        }
+    }
+
+    private void setIp(AbstractHttpMessage message) {
+        message.addHeader(SendConstants.HEAD_IP_1, moIp);
+        message.addHeader(SendConstants.HEAD_IP_2, moIp);
+        message.addHeader(SendConstants.HEAD_IP_3, moIp);
+        message.addHeader(SendConstants.HEAD_IP_4, moIp);
+        message.addHeader(SendConstants.HEAD_IP_5, moIp);
     }
 
     private String userAgent;

@@ -20,6 +20,7 @@ public enum ChannelType implements ValueDescription {
 	DINGDIAN("dingdian","dingdian"),
 	ZONGHENG("zongheng","zongheng"),
 	JIANSHU("jianshu","jianshu"),
+	TXSQ("txsq","txsq"),
 	XIAOXIANGSHUYUAN("xiaoxiangshuyuan","xiaoxiangshuyuan"),
 	XIANGCUN("xiangcunxiaoshuo","xiangcunxiaoshuo");
 
