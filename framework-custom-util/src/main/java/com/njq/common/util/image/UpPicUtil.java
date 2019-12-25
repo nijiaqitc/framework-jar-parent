@@ -1,5 +1,6 @@
 package com.njq.common.util.image;
 
+import com.njq.common.util.grab.UrlChangeUtil;
 import com.njq.common.util.string.IdGen;
 import org.apache.commons.fileupload.FileItem;
 import org.slf4j.Logger;
@@ -134,6 +135,8 @@ public class UpPicUtil {
             con = (HttpURLConnection) url.openConnection();
             // 设置请求超时为5s
             con.setConnectTimeout(5 * 1000);
+            UrlChangeUtil.setConnection(con, null);
+            UrlChangeUtil.setRandomIp(con);
             // 输入流
             is = con.getInputStream();
             // 1K的数据缓冲
