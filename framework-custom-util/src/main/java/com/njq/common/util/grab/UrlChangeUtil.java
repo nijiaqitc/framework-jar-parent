@@ -23,8 +23,11 @@ public class UrlChangeUtil {
          * 设置连接头信息
          */
         if (!StringUtil.isEmpty(cookieStore)) {
-            setConnection(con, cookieStore);
+            setCustomCookie(con, cookieStore);
         }
+        setConnection(con, cookieStore);
+        //设置随机ip
+        setRandomIp(con);
         if (con.getResponseCode() == 301) {
             con.disconnect();
             url = new URL(con.getHeaderField("Location"));
@@ -33,14 +36,16 @@ public class UrlChangeUtil {
              * 设置连接头信息
              */
             if (!StringUtil.isEmpty(cookieStore)) {
-                setConnection(con, cookieStore);
+                setCustomCookie(con, cookieStore);
             }
+            setConnection(con, cookieStore);
+            setRandomIp(con);
         }
         if (con.getResponseCode() != 200) {
             logger.error("访问失败：" + urlString + " 响应code：" + con.getResponseCode());
             throw new RuntimeException("响应失败！ " + con.getResponseCode());
         }
-        if(con.getContentType().contains("text/html")){
+        if (con.getContentType().contains("text/html")) {
             throw new RuntimeException("读取到了html，请检查是否要登录或源文件已失效！");
         }
         InputStream is = null;
@@ -109,6 +114,19 @@ public class UrlChangeUtil {
         con.setRequestProperty(SendConstants.UPGRADE_INSECURE_REQUESTS_NAME,
                 SendConstants.UPGRADE_INSECURE_REQUESTS_VALUE);
         con.setRequestProperty(SendConstants.CACHE_CONTROL_NAME, SendConstants.CACHE_CONTROL_VALUE);
+
+    }
+
+    public static void setRandomIp(HttpURLConnection con) {
+        String moIp = GenerateRandomIpUtil.getRandomIp();
+        con.setRequestProperty(SendConstants.HEAD_IP_1, moIp);
+        con.setRequestProperty(SendConstants.HEAD_IP_2, moIp);
+        con.setRequestProperty(SendConstants.HEAD_IP_3, moIp);
+        con.setRequestProperty(SendConstants.HEAD_IP_4, moIp);
+        con.setRequestProperty(SendConstants.HEAD_IP_5, moIp);
+    }
+
+    public static void setCustomCookie(HttpURLConnection con, String cookieStore) {
         con.setRequestProperty(SendConstants.COOKIE_NAME, cookieStore);
     }
 }

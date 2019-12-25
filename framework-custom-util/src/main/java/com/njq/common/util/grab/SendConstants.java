@@ -7,7 +7,7 @@ public class SendConstants {
     public static final String ISO = "ISO-8859-1";
     public static final String GB = "GB2312";
     public static final String USER_AGENT_NAME = "User-Agent";
-    public static final String USER_AGENT_VALUE = "Mozilla/5.0 (Windows NT 6.1; rv:16.0) Gecko/20100101 Firefox/16.0";
+    public static final String USER_AGENT_VALUE = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)";
 
     public static final String CONTENT_TYPE_NAME = "Content-Type";
     public static final String CONTENT_TYPE_VALUE = "application/x-www-form-urlencoded";
