@@ -22,7 +22,8 @@ public enum ChannelType implements ValueDescription {
 	JIANSHU("jianshu","jianshu"),
 	TXSQ("txsq","txsq"),
 	XIAOXIANGSHUYUAN("xiaoxiangshuyuan","xiaoxiangshuyuan"),
-	XIANGCUN("xiangcunxiaoshuo","xiangcunxiaoshuo");
+	XIANGCUN("xiangcunxiaoshuo","xiangcunxiaoshuo"),
+	ITPUB("itpub","itpub");
 
 	private String value;
 	private String description;
